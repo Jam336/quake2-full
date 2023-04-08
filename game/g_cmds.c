@@ -324,6 +324,29 @@ void Cmd_God_f (edict_t *ent)
 	gi.cprintf (ent, PRINT_HIGH, msg);
 }
 
+/*Jades commands!!!*/
+void Cmd_Element_f(edict_t* ent)
+{
+	char *name = gi.args();
+
+	if (Q_stricmp(name, "0") == 0)
+	{
+		ent->element = 0;
+	}
+
+	if (Q_stricmp(name, "1") == 0)
+	{
+		ent->element = 1;
+	}
+
+
+
+
+	gi.cprintf(ent, PRINT_HIGH, "Element %u\n", ent->element);
+}
+
+
+
 
 /*
 ==================
@@ -943,14 +966,21 @@ void ClientCommand (edict_t *ent)
 	if (level.intermissiontime)
 		return;
 
-	if (Q_stricmp (cmd, "use") == 0)
-		Cmd_Use_f (ent);
-	else if (Q_stricmp (cmd, "drop") == 0)
-		Cmd_Drop_f (ent);
-	else if (Q_stricmp (cmd, "give") == 0)
-		Cmd_Give_f (ent);
-	else if (Q_stricmp (cmd, "god") == 0)
-		Cmd_God_f (ent);
+	if (Q_stricmp(cmd, "use") == 0)
+		Cmd_Use_f(ent);
+	else if (Q_stricmp(cmd, "drop") == 0)
+		Cmd_Drop_f(ent);
+	else if (Q_stricmp(cmd, "give") == 0)
+		Cmd_Give_f(ent);
+	else if (Q_stricmp(cmd, "god") == 0)
+		Cmd_God_f(ent);
+	//Jade right here
+	else if (Q_stricmp(cmd, "element") == 0)
+		Cmd_Element_f(ent);
+
+
+
+
 	else if (Q_stricmp (cmd, "notarget") == 0)
 		Cmd_Notarget_f (ent);
 	else if (Q_stricmp (cmd, "noclip") == 0)

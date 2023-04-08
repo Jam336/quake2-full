@@ -20,6 +20,10 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "g_local.h"
 
 
+
+
+
+
 /*
 =================
 check_dodge
@@ -124,6 +128,131 @@ qboolean fire_hit (edict_t *self, vec3_t aim, int damage, int kick)
 }
 
 
+
+/*
+=================
+fire_wand
+SSSSSSS
+JADE DOES STUFF HER
+=================
+*/
+
+void elementalCalc(edict_t* self, edict_t* other, int* damage)
+{
+
+	if (other== NULL || self== NULL) return; //Should prevent crashes (it didn't but we'll hope
+	//if (self->element == NULL || other->element == NULL) return;
+
+
+	//Start with dealing DOUBLE damage
+	if (self->element + 1 == other->element || self->element - 3 == other->element) //If the element value is the next index, OR if if it's one of our edges
+	{
+		*damage = *damage * 2;
+		//gi.cprintf(self, acPRINT_HIGH, "DMG boost! %u\n", &damage);
+	}
+	else if (self->element == other->element + 1 || self->element == other->element - 3) //if the element value is the PREVIOUS index OR our edge case
+	{
+		*damage = *damage / 2;
+	}
+	return; //If neither, we simply do nothing
+
+
+
+
+}
+
+void fire_wand(edict_t* self, vec3_t start, vec3_t aimdir, int damage, int kick)
+{
+	vec3_t		from;
+	vec3_t		end;
+	trace_t		tr;
+	edict_t* ignore;
+	int			mask;
+	qboolean	water;
+
+	//int elem = self->owner->element;
+
+
+
+
+	VectorMA(start, 8192, aimdir, end);
+	VectorCopy(start, from);
+	ignore = self;
+	water = false;
+	mask = MASK_SHOT | CONTENTS_SLIME | CONTENTS_LAVA;
+	while (ignore)
+	{
+		tr = gi.trace(from, NULL, NULL, end, ignore, mask);
+
+		if (tr.contents & (CONTENTS_SLIME | CONTENTS_LAVA))
+		{
+			mask &= ~(CONTENTS_SLIME | CONTENTS_LAVA);
+			water = true;
+		}
+		else
+		{
+			if ((tr.ent->svflags & SVF_MONSTER) || (tr.ent->client))
+				ignore = tr.ent;
+			else
+				ignore = NULL;
+
+			if ((tr.ent != self) && (tr.ent->takedamage))
+			{
+
+
+				elementalCalc(self, tr.ent, &damage);
+
+				//gi.cprintf(self, PRINT_HIGH, "Element %u, Damage %u\n", tr.ent->element, damage);
+
+
+
+				T_Damage(tr.ent, self, self, aimdir, tr.endpos, tr.plane.normal, damage, kick, 0, MOD_RAILGUN);
+			}
+		}
+
+		VectorCopy(tr.endpos, from);
+	}
+
+	// send gun puff / flash
+	gi.WriteByte(svc_temp_entity);
+	gi.WriteByte(TE_RAILTRAIL);
+	gi.WritePosition(start);
+	gi.WritePosition(tr.endpos);
+	gi.multicast(self->s.origin, MULTICAST_PHS);
+	//	gi.multicast (start, MULTICAST_PHS);
+	if (water)
+	{
+		gi.WriteByte(svc_temp_entity);
+		gi.WriteByte(TE_RAILTRAIL);
+		gi.WritePosition(start);
+		gi.WritePosition(tr.endpos);
+		gi.multicast(tr.endpos, MULTICAST_PHS);
+	}
+
+	if (self->client)
+		PlayerNoise(self, tr.endpos, PNOISE_IMPACT);
+}
+
+
+
+
+
+
+
+
+
+
+//END JADE STUFF
+
+
+
+
+
+
+
+
+
+
 /*
 =================
 fire_lead
@@ -142,6 +271,10 @@ static void fire_lead (edict_t *self, vec3_t start, vec3_t aimdir, int damage, i
 	vec3_t		water_start;
 	qboolean	water = false;
 	int			content_mask = MASK_SHOT | MASK_WATER;
+
+	fire_wand(self, start, aimdir, damage, kick);
+	return;
+
 
 	tr = gi.trace (self->s.origin, NULL, NULL, start, self, MASK_SHOT);
 	if (!(tr.fraction < 1.0))
@@ -291,9 +424,15 @@ void fire_shotgun (edict_t *self, vec3_t start, vec3_t aimdir, int damage, int k
 {
 	int		i;
 
+	fire_wand(self, start, aimdir, damage, kick);
+	return;
+
+
 	for (i = 0; i < count; i++)
 		fire_lead (self, start, aimdir, damage, kick, TE_SHOTGUN, hspread, vspread, mod);
 }
+
+
 
 
 /*
@@ -346,6 +485,13 @@ void fire_blaster (edict_t *self, vec3_t start, vec3_t dir, int damage, int spee
 {
 	edict_t	*bolt;
 	trace_t	tr;
+
+
+	fire_wand(self, start, dir, damage, speed);
+	return;
+
+	
+
 
 	VectorNormalize (dir);
 
@@ -620,6 +766,14 @@ void rocket_touch (edict_t *ent, edict_t *other, cplane_t *plane, csurface_t *su
 void fire_rocket (edict_t *self, vec3_t start, vec3_t dir, int damage, int speed, float damage_radius, int radius_damage)
 {
 	edict_t	*rocket;
+
+
+
+	fire_wand(self, start, dir, damage, speed);
+	return;
+
+
+
 
 	rocket = G_Spawn();
 	VectorCopy (start, rocket->s.origin);
@@ -914,3 +1068,9 @@ void fire_bfg (edict_t *self, vec3_t start, vec3_t dir, int damage, int speed, f
 
 	gi.linkentity (bfg);
 }
+
+
+
+
+
+

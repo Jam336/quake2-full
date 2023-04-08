@@ -438,6 +438,12 @@ edict_t *G_Spawn (void)
 		gi.error ("ED_Alloc: no free edicts");
 		
 	globals.num_edicts++;
+
+	int elem =rand()%4;
+
+
+
+	e->element = elem; //this could crash things
 	G_InitEdict (e);
 	return e;
 }

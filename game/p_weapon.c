@@ -737,6 +737,10 @@ void weapon_grenadelauncher_fire (edict_t *ent)
 	PlayerNoise(ent, start, PNOISE_WEAPON);
 
 	if (! ( (int)dmflags->value & DF_INFINITE_AMMO ) )
+		if (ent->damageBoost) //This is out damage boost thing, we'll use this anytime amm
+		{
+			ent->client->pers.inventory[ent->client->ammo_index] = ent->client->pers.inventory[ent->client->ammo_index] - ent->damageBoost;
+		}
 		ent->client->pers.inventory[ent->client->ammo_index]--;
 }
 
@@ -793,6 +797,10 @@ void Weapon_RocketLauncher_Fire (edict_t *ent)
 	PlayerNoise(ent, start, PNOISE_WEAPON);
 
 	if (! ( (int)dmflags->value & DF_INFINITE_AMMO ) )
+		if (ent->damageBoost) //This is out damage boost thing, we'll use this anytime amm
+		{
+			ent->client->pers.inventory[ent->client->ammo_index] = ent->client->pers.inventory[ent->client->ammo_index] - ent->damageBoost;
+		}
 		ent->client->pers.inventory[ent->client->ammo_index]--;
 }
 
@@ -908,6 +916,10 @@ void Weapon_HyperBlaster_Fire (edict_t *ent)
 				damage = 20;
 			Blaster_Fire (ent, offset, damage, true, effect);
 			if (! ( (int)dmflags->value & DF_INFINITE_AMMO ) )
+				if (ent->damageBoost) //This is out damage boost thing, we'll use this anytime amm
+				{
+					ent->client->pers.inventory[ent->client->ammo_index] = ent->client->pers.inventory[ent->client->ammo_index] - ent->damageBoost;
+				}
 				ent->client->pers.inventory[ent->client->ammo_index]--;
 
 			ent->client->anim_priority = ANIM_ATTACK;
@@ -1023,6 +1035,10 @@ void Machinegun_Fire (edict_t *ent)
 	PlayerNoise(ent, start, PNOISE_WEAPON);
 
 	if (! ( (int)dmflags->value & DF_INFINITE_AMMO ) )
+		if (ent->damageBoost) //This is out damage boost thing, we'll use this anytime amm
+		{
+			ent->client->pers.inventory[ent->client->ammo_index] = ent->client->pers.inventory[ent->client->ammo_index] - ent->damageBoost;
+		}
 		ent->client->pers.inventory[ent->client->ammo_index]--;
 
 	ent->client->anim_priority = ANIM_ATTACK;
@@ -1162,7 +1178,8 @@ void Chaingun_Fire (edict_t *ent)
 	PlayerNoise(ent, start, PNOISE_WEAPON);
 
 	if (! ( (int)dmflags->value & DF_INFINITE_AMMO ) )
-		ent->client->pers.inventory[ent->client->ammo_index] -= shots;
+
+		ent->client->pers.inventory[ent->client->ammo_index] -= shots * (ent->damageBoost + 1);
 }
 
 
@@ -1226,6 +1243,13 @@ void weapon_shotgun_fire (edict_t *ent)
 	PlayerNoise(ent, start, PNOISE_WEAPON);
 
 	if (! ( (int)dmflags->value & DF_INFINITE_AMMO ) )
+
+		if (ent->damageBoost) //This is out damage boost thing, we'll use this anytime amm
+		{
+			ent->client->pers.inventory[ent->client->ammo_index] = ent->client->pers.inventory[ent->client->ammo_index] - ent->damageBoost;
+		}
+
+
 		ent->client->pers.inventory[ent->client->ammo_index]--;
 }
 
@@ -1280,7 +1304,7 @@ void weapon_supershotgun_fire (edict_t *ent)
 	PlayerNoise(ent, start, PNOISE_WEAPON);
 
 	if (! ( (int)dmflags->value & DF_INFINITE_AMMO ) )
-		ent->client->pers.inventory[ent->client->ammo_index] -= 2;
+		ent->client->pers.inventory[ent->client->ammo_index] -= (2 * (ent->damageBoost +1));
 }
 
 void Weapon_SuperShotgun (edict_t *ent)
@@ -1345,6 +1369,10 @@ void weapon_railgun_fire (edict_t *ent)
 	PlayerNoise(ent, start, PNOISE_WEAPON);
 
 	if (! ( (int)dmflags->value & DF_INFINITE_AMMO ) )
+		if (ent->damageBoost) //This is out damage boost thing, we'll use this anytime amm
+		{
+			ent->client->pers.inventory[ent->client->ammo_index] = ent->client->pers.inventory[ent->client->ammo_index] - ent->damageBoost;
+		}
 		ent->client->pers.inventory[ent->client->ammo_index]--;
 }
 
@@ -1421,7 +1449,7 @@ void weapon_bfg_fire (edict_t *ent)
 	PlayerNoise(ent, start, PNOISE_WEAPON);
 
 	if (! ( (int)dmflags->value & DF_INFINITE_AMMO ) )
-		ent->client->pers.inventory[ent->client->ammo_index] -= 50;
+		ent->client->pers.inventory[ent->client->ammo_index] -= 50 * ent->damageBoost;
 }
 
 void Weapon_BFG (edict_t *ent)

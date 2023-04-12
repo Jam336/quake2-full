@@ -1117,6 +1117,15 @@ struct edict_s
 	int			itemEquip;	//
 	int			spellMod;	//
 
+	//Spell customization
+
+	int lifeLeech; //1 or 0
+	int damageBoost; //starts a 0 with no boost, and then from there we'll raise 1.5 to the power of damageBoost for it's effect and subtract the additional ammount of ammo used
+	int fireSpeed; //Not sure how we'll do this one
+
+
+
+
 
 
 };

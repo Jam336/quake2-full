@@ -338,6 +338,16 @@ void Cmd_Element_f(edict_t* ent)
 	{
 		ent->element = 1;
 	}
+	
+	if (Q_stricmp(name, "2") == 0)
+	{
+		ent->element = 2;
+	}
+	
+	if (Q_stricmp(name, "3") == 0)
+	{
+		ent->element = 3;
+	}
 
 
 
@@ -345,6 +355,53 @@ void Cmd_Element_f(edict_t* ent)
 	gi.cprintf(ent, PRINT_HIGH, "Element %u\n", ent->element);
 }
 
+
+void Cmd_DamageBoost_f(edict_t* ent)
+{
+	char* name = gi.args();
+
+	if (Q_stricmp(name, "0") == 0)
+	{
+		ent->damageBoost = 0;
+	}
+
+	if (Q_stricmp(name, "1") == 0)
+	{
+		ent->damageBoost = 1;
+	}
+
+	if (Q_stricmp(name, "2") == 0)
+	{
+		ent->damageBoost = 2;
+	}
+
+	if (Q_stricmp(name, "3") == 0)
+	{
+		ent->damageBoost = 3;
+	}
+
+
+
+	gi.cprintf(ent, PRINT_HIGH, "Damage Boost %u\n", ent->damageBoost);
+
+
+
+}
+
+void Cmd_LifeLeech_f(edict_t* ent)
+{
+	char* name = gi.args();
+
+	if (Q_stricmp(name, "0") == 0)
+	{
+		ent->lifeLeech = 0;
+	}
+
+	if (Q_stricmp(name, "1") == 0)
+	{
+		ent->lifeLeech = 1;
+	}
+}
 
 
 
@@ -977,6 +1034,10 @@ void ClientCommand (edict_t *ent)
 	//Jade right here
 	else if (Q_stricmp(cmd, "element") == 0)
 		Cmd_Element_f(ent);
+	else if (Q_stricmp(cmd, "damageBoost") == 0)
+		Cmd_DamageBoost_f(ent);
+	else if (Q_stricmp(cmd, "lifeLeech") == 0)
+		Cmd_LifeLeech_f(ent);
 
 
 

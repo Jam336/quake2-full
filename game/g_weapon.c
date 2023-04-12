@@ -133,10 +133,11 @@ qboolean fire_hit (edict_t *self, vec3_t aim, int damage, int kick)
 =================
 fire_wand
 SSSSSSS
-JADE DOES STUFF HER
+JADE DOES STUFF HERE
 =================
 */
 
+//A function that's used to calculate the damage an entity causes based upon element strengths
 void elementalCalc(edict_t* self, edict_t* other, int* damage)
 {
 
@@ -161,6 +162,38 @@ void elementalCalc(edict_t* self, edict_t* other, int* damage)
 
 }
 
+void damageBoosted(edict_t* self, int* damage)
+{
+	if (self == NULL) return;
+
+	for (int i = 0; i < self->damageBoost; i++)
+	{
+		*damage *= 1.9;
+	}
+
+
+}
+
+void lifeLeech(edict_t* self, int* damage)
+{
+	if (self == NULL) return;
+	int leeched;
+
+	*damage = *damage * 3 / 4;
+
+	leeched = *damage / 2;
+
+	if (self->health + leeched >= self->max_health) self->health = self->max_health;
+	else self->health += leeched;
+
+
+}
+
+
+
+
+
+//Function used for most wand mechanics, based upon the railgun. Includes elemental calculation function
 void fire_wand(edict_t* self, vec3_t start, vec3_t aimdir, int damage, int kick)
 {
 	vec3_t		from;
@@ -203,6 +236,9 @@ void fire_wand(edict_t* self, vec3_t start, vec3_t aimdir, int damage, int kick)
 				elementalCalc(self, tr.ent, &damage);
 
 				//gi.cprintf(self, PRINT_HIGH, "Element %u, Damage %u\n", tr.ent->element, damage);
+
+				if (self->damageBoost) damageBoosted(self, &damage);
+				if (self->lifeLeech) lifeLeech(self, &damage);
 
 
 

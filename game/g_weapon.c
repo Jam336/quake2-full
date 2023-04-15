@@ -272,6 +272,43 @@ void fire_wand(edict_t* self, vec3_t start, vec3_t aimdir, int damage, int kick)
 
 
 
+void itemUse(edict_t* self, int item)
+{
+
+//something something, switch case, with item possibly
+	switch (item)
+	{
+	case(0): //Health potion
+		self->health;
+	case(1): //Mana potion
+	case(2): //Rage potion
+	case(3): //Mage armor
+	case(4): //Invincibility potion
+	
+	
+	
+	
+	}
+
+
+
+
+}
+
+void summonSpirit(edict_t* self, int summon)
+{
+	edict_t *spirit;
+//start with entity initializiation that's constant between diff summons, then switch case where they differ
+
+	spirit = G_Spawn();
+	spirit->svflags = SVF_MONSTER;
+	spirit->owner = self->owner;
+
+
+}
+
+
+
 
 
 

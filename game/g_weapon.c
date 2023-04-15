@@ -274,16 +274,50 @@ void fire_wand(edict_t* self, vec3_t start, vec3_t aimdir, int damage, int kick)
 
 void itemUse(edict_t* self, int item)
 {
+	gitem_t* it;
+	gitem_armor_t* info;
 
 //something something, switch case, with item possibly
 	switch (item)
 	{
 	case(0): //Health potion
-		self->health;
+		self->health = self->max_health;
+		break;
 	case(1): //Mana potion
+		for (int i = 0; i < game.num_items; i++)
+		{
+			it = itemlist + i;
+			if (!it->pickup)
+				continue;
+			if (!(it->flags & IT_AMMO))
+				continue;
+			Add_Ammo(self, it, 1000);
+		}
+		break;
 	case(2): //Rage potion
+		self->client->ps.pmove.velocity[2] = 100;
+		break;
 	case(3): //Mage armor
+		
+
+		it = FindItem("Jacket Armor");
+		self->client->pers.inventory[ITEM_INDEX(it)] = 0;
+
+		it = FindItem("Combat Armor");
+		self->client->pers.inventory[ITEM_INDEX(it)] = 0;
+
+		it = FindItem("Body Armor");
+		info = (gitem_armor_t*)it->info;
+		self->client->pers.inventory[ITEM_INDEX(it)] = info->max_count;
+
+
+
+		break;
 	case(4): //Invincibility potion
+
+
+
+		break;
 	
 	
 	

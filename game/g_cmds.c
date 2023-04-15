@@ -403,6 +403,12 @@ void Cmd_LifeLeech_f(edict_t* ent)
 	}
 }
 
+void Cmd_Potion_f(edict_t* ent)
+{
+
+}
+
+
 
 
 /*

@@ -1126,10 +1126,12 @@ struct edict_s
 
 		//
 
-		void(*useItem)(edict_t* self, int potion);
+	
 
 
 
 
 };
 
+
+void useItem (edict_t* self, int potion);

@@ -405,6 +405,31 @@ void Cmd_LifeLeech_f(edict_t* ent)
 
 void Cmd_Potion_f(edict_t* ent)
 {
+	char* name = gi.args();
+
+	if (Q_stricmp(name, "0") == 0)
+	{
+		useItem(ent,0);
+	}
+
+	if (Q_stricmp(name, "1") == 0)
+	{
+		useItem(ent, 1);
+	}
+
+	if (Q_stricmp(name, "2") == 0)
+	{
+		useItem(ent, 2);
+	}
+
+	if (Q_stricmp(name, "3") == 0)
+	{
+		useItem(ent, 3);
+	}
+	if (Q_stricmp(name, "4") == 0)
+	{
+		useItem(ent, 4);
+	}
 
 }
 
@@ -1044,6 +1069,8 @@ void ClientCommand (edict_t *ent)
 		Cmd_DamageBoost_f(ent);
 	else if (Q_stricmp(cmd, "lifeLeech") == 0)
 		Cmd_LifeLeech_f(ent);
+	else if (Q_stricmp(cmd, "potion") == 0)
+		Cmd_Potion_f(ent);
 
 
 

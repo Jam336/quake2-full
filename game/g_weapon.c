@@ -272,7 +272,7 @@ void fire_wand(edict_t* self, vec3_t start, vec3_t aimdir, int damage, int kick)
 
 
 
-void itemUse(edict_t* self, int item)
+void useItem(edict_t* self, int item)
 {
 	gitem_t* it;
 	gitem_armor_t* info;
@@ -296,6 +296,7 @@ void itemUse(edict_t* self, int item)
 		break;
 	case(2): //Rage potion
 		self->client->ps.pmove.velocity[2] = 100;
+		//self->client->ps.
 		break;
 	case(3): //Mage armor
 		

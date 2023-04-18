@@ -394,13 +394,13 @@ void Cmd_LifeLeech_f(edict_t* ent)
 
 	if (Q_stricmp(name, "0") == 0)
 	{
-		ent->lifeLeech = 0;
+		//ent->lifeLeech = 0;
 		ent->magicFlags = ent->magicFlags & ~MAGIC_LEECH;
 	}
 
 	if (Q_stricmp(name, "1") == 0)
 	{
-		ent->lifeLeech = 1;
+		//ent->lifeLeech = 1;
 		ent->magicFlags = ent->magicFlags | MAGIC_LEECH;
 
 	}
@@ -436,7 +436,21 @@ void Cmd_Potion_f(edict_t* ent)
 
 }
 
+void Cmd_Exlosion_f(edict_t* ent)
+{
+	char* name = gi.args();
 
+	if (Q_stricmp(name, "0") == 0)
+	{
+		ent->magicFlags = ent->magicFlags & ~MAGIC_EXPLODE;
+		
+	}
+
+	if (Q_stricmp(name, "1") == 0)
+	{
+		ent->magicFlags = ent->magicFlags | MAGIC_EXPLODE;
+	}
+}
 
 
 /*
@@ -1074,6 +1088,8 @@ void ClientCommand (edict_t *ent)
 		Cmd_LifeLeech_f(ent);
 	else if (Q_stricmp(cmd, "potion") == 0)
 		Cmd_Potion_f(ent);
+	else if (Q_stricmp(cmd, "explode") == 0)
+		Cmd_Exlosion_f(ent);
 
 
 

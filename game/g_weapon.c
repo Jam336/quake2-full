@@ -128,6 +128,96 @@ qboolean fire_hit (edict_t *self, vec3_t aim, int damage, int kick)
 }
 
 
+//Grenade Explode
+static void Grenade_Explode(edict_t* ent)
+{
+	vec3_t		origin;
+	int			mod;
+
+	if (ent->owner->client)
+		PlayerNoise(ent->owner, ent->s.origin, PNOISE_IMPACT);
+
+	//FIXME: if we are onground then raise our Z just a bit since we are a point?
+	if (ent->enemy)
+	{
+		float	points;
+		vec3_t	v;
+		vec3_t	dir;
+
+		VectorAdd(ent->enemy->mins, ent->enemy->maxs, v);
+		VectorMA(ent->enemy->s.origin, 0.5, v, v);
+		VectorSubtract(ent->s.origin, v, v);
+		points = ent->dmg - 0.5 * VectorLength(v);
+		VectorSubtract(ent->enemy->s.origin, ent->s.origin, dir);
+		if (ent->spawnflags & 1)
+			mod = MOD_HANDGRENADE;
+		else
+			mod = MOD_GRENADE;
+		T_Damage(ent->enemy, ent, ent->owner, dir, ent->s.origin, vec3_origin, (int)points, (int)points, DAMAGE_RADIUS, mod);
+	}
+
+	if (ent->spawnflags & 2)
+		mod = MOD_HELD_GRENADE;
+	else if (ent->spawnflags & 1)
+		mod = MOD_HG_SPLASH;
+	else
+		mod = MOD_G_SPLASH;
+	T_RadiusDamage(ent, ent->owner, ent->dmg, ent->enemy, ent->dmg_radius, mod);
+
+	VectorMA(ent->s.origin, -0.02, ent->velocity, origin);
+	gi.WriteByte(svc_temp_entity);
+	if (ent->waterlevel)
+	{
+		if (ent->groundentity)
+			gi.WriteByte(TE_GRENADE_EXPLOSION_WATER);
+		else
+			gi.WriteByte(TE_ROCKET_EXPLOSION_WATER);
+	}
+	else
+	{
+		if (ent->groundentity)
+			gi.WriteByte(TE_GRENADE_EXPLOSION);
+		else
+			gi.WriteByte(TE_ROCKET_EXPLOSION);
+	}
+	gi.WritePosition(origin);
+	gi.multicast(ent->s.origin, MULTICAST_PHS);
+
+	G_FreeEdict(ent);
+}
+
+static void Grenade_Touch(edict_t* ent, edict_t* other, cplane_t* plane, csurface_t* surf)
+{
+	if (other == ent->owner)
+		return;
+
+	if (surf && (surf->flags & SURF_SKY))
+	{
+		G_FreeEdict(ent);
+		return;
+	}
+
+	if (!other->takedamage)
+	{
+		if (ent->spawnflags & 1)
+		{
+			if (random() > 0.5)
+				gi.sound(ent, CHAN_VOICE, gi.soundindex("weapons/hgrenb1a.wav"), 1, ATTN_NORM, 0);
+			else
+				gi.sound(ent, CHAN_VOICE, gi.soundindex("weapons/hgrenb2a.wav"), 1, ATTN_NORM, 0);
+		}
+		else
+		{
+			gi.sound(ent, CHAN_VOICE, gi.soundindex("weapons/grenlb1b.wav"), 1, ATTN_NORM, 0);
+		}
+		return;
+	}
+
+	ent->enemy = other;
+	Grenade_Explode(ent);
+}
+
+
 
 /*
 =================
@@ -215,6 +305,7 @@ void fire_wand(edict_t* self, vec3_t start, vec3_t aimdir, int damage, int kick)
 	qboolean	water;
 
 	//int elem = self->owner->element;
+	edict_t *explosion = G_Spawn();
 
 
 
@@ -252,6 +343,33 @@ void fire_wand(edict_t* self, vec3_t start, vec3_t aimdir, int damage, int kick)
 				if ((self->magicFlags & MAGIC_RAGE) == MAGIC_RAGE) Rage(self, &damage); //we'll do this before, otherwise our damage is gonna get scary
 				if (self->damageBoost) damageBoosted(self, &damage);
 				if ((self->magicFlags & MAGIC_LEECH) == MAGIC_LEECH) lifeLeech(self, &damage);
+
+				if ((self->magicFlags & MAGIC_EXPLODE) == MAGIC_EXPLODE)
+				{
+					*explosion->s.origin = *tr.endpos;
+
+					explosion->owner = self;
+					explosion->dmg = damage;
+					explosion->dmg_radius = 10;
+					explosion->enemy = tr.ent;
+
+					//gi.WriteByte(svc_temp_entity);
+					//gi.WriteByte(TE_GRENADE_EXPLOSION);
+
+					gi.WriteByte(svc_temp_entity);
+					gi.WriteByte(TE_GRENADE_EXPLOSION);
+					gi.WritePosition(tr.endpos);
+					gi.multicast(tr.endpos, MULTICAST_PHS);
+
+					T_RadiusDamage(explosion, self, damage, tr.ent, 10, MOD_RAILGUN);
+
+					//Grenade_Explode(explosion);
+					//tr.endpos this should give me the end pos of the trace, can use this for the entity we spawn as the explosions center
+					//we'll want to spawn an entity at the trace if we can
+
+					//T_RadiusDamage(self, ent->owner, ent->dmg, ent->enemy, ent->dmg_radius, mod);
+				}
+
 
 
 
@@ -661,93 +779,8 @@ void fire_blaster (edict_t *self, vec3_t start, vec3_t dir, int damage, int spee
 fire_grenade
 =================
 */
-static void Grenade_Explode (edict_t *ent)
-{
-	vec3_t		origin;
-	int			mod;
 
-	if (ent->owner->client)
-		PlayerNoise(ent->owner, ent->s.origin, PNOISE_IMPACT);
 
-	//FIXME: if we are onground then raise our Z just a bit since we are a point?
-	if (ent->enemy)
-	{
-		float	points;
-		vec3_t	v;
-		vec3_t	dir;
-
-		VectorAdd (ent->enemy->mins, ent->enemy->maxs, v);
-		VectorMA (ent->enemy->s.origin, 0.5, v, v);
-		VectorSubtract (ent->s.origin, v, v);
-		points = ent->dmg - 0.5 * VectorLength (v);
-		VectorSubtract (ent->enemy->s.origin, ent->s.origin, dir);
-		if (ent->spawnflags & 1)
-			mod = MOD_HANDGRENADE;
-		else
-			mod = MOD_GRENADE;
-		T_Damage (ent->enemy, ent, ent->owner, dir, ent->s.origin, vec3_origin, (int)points, (int)points, DAMAGE_RADIUS, mod);
-	}
-
-	if (ent->spawnflags & 2)
-		mod = MOD_HELD_GRENADE;
-	else if (ent->spawnflags & 1)
-		mod = MOD_HG_SPLASH;
-	else
-		mod = MOD_G_SPLASH;
-	T_RadiusDamage(ent, ent->owner, ent->dmg, ent->enemy, ent->dmg_radius, mod);
-
-	VectorMA (ent->s.origin, -0.02, ent->velocity, origin);
-	gi.WriteByte (svc_temp_entity);
-	if (ent->waterlevel)
-	{
-		if (ent->groundentity)
-			gi.WriteByte (TE_GRENADE_EXPLOSION_WATER);
-		else
-			gi.WriteByte (TE_ROCKET_EXPLOSION_WATER);
-	}
-	else
-	{
-		if (ent->groundentity)
-			gi.WriteByte (TE_GRENADE_EXPLOSION);
-		else
-			gi.WriteByte (TE_ROCKET_EXPLOSION);
-	}
-	gi.WritePosition (origin);
-	gi.multicast (ent->s.origin, MULTICAST_PHS);
-
-	G_FreeEdict (ent);
-}
-
-static void Grenade_Touch (edict_t *ent, edict_t *other, cplane_t *plane, csurface_t *surf)
-{
-	if (other == ent->owner)
-		return;
-
-	if (surf && (surf->flags & SURF_SKY))
-	{
-		G_FreeEdict (ent);
-		return;
-	}
-
-	if (!other->takedamage)
-	{
-		if (ent->spawnflags & 1)
-		{
-			if (random() > 0.5)
-				gi.sound (ent, CHAN_VOICE, gi.soundindex ("weapons/hgrenb1a.wav"), 1, ATTN_NORM, 0);
-			else
-				gi.sound (ent, CHAN_VOICE, gi.soundindex ("weapons/hgrenb2a.wav"), 1, ATTN_NORM, 0);
-		}
-		else
-		{
-			gi.sound (ent, CHAN_VOICE, gi.soundindex ("weapons/grenlb1b.wav"), 1, ATTN_NORM, 0);
-		}
-		return;
-	}
-
-	ent->enemy = other;
-	Grenade_Explode (ent);
-}
 
 void fire_grenade (edict_t *self, vec3_t start, vec3_t aimdir, int damage, int speed, float timer, float damage_radius)
 {

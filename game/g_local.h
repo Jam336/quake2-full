@@ -45,6 +45,13 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define	FALL_TIME		0.3
 
 
+//Jade Magic Flags
+#define	MAGIC_LEECH					0x00000001
+#define	MAGIC_EXPLODE				0x00000002
+#define	MAGIC_RAGE					0x00000010
+
+
+
 // edict->spawnflags
 // these are set with checkboxes on each entity in the map editor
 #define	SPAWNFLAG_NOT_EASY			0x00000100
@@ -1124,7 +1131,12 @@ struct edict_s
 	int fireSpeed; //Not sure how we'll do this one
 	int magicRadius; //A radius for blast damage, uses more ammo just like damage boost
 
-		//
+	
+
+	int magicFlags; //
+
+	
+
 
 	
 

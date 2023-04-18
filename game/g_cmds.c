@@ -395,11 +395,14 @@ void Cmd_LifeLeech_f(edict_t* ent)
 	if (Q_stricmp(name, "0") == 0)
 	{
 		ent->lifeLeech = 0;
+		ent->magicFlags = ent->magicFlags & ~MAGIC_LEECH;
 	}
 
 	if (Q_stricmp(name, "1") == 0)
 	{
 		ent->lifeLeech = 1;
+		ent->magicFlags = ent->magicFlags | MAGIC_LEECH;
+
 	}
 }
 

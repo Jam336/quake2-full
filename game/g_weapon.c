@@ -189,6 +189,17 @@ void lifeLeech(edict_t* self, int* damage)
 
 }
 
+void Rage(edict_t* self, int* damage)
+{
+	if (self == NULL) return;
+	if (*damage <= 1)// just in case our damage is less than equal to 1
+	{
+		*damage = 2;
+	}
+		*damage *= *damage;
+		return;
+}
+
 
 
 
@@ -236,9 +247,11 @@ void fire_wand(edict_t* self, vec3_t start, vec3_t aimdir, int damage, int kick)
 				elementalCalc(self, tr.ent, &damage);
 
 				//gi.cprintf(self, PRINT_HIGH, "Element %u, Damage %u\n", tr.ent->element, damage);
-
+			
+				
+				if ((self->magicFlags & MAGIC_RAGE) == MAGIC_RAGE) Rage(self, &damage); //we'll do this before, otherwise our damage is gonna get scary
 				if (self->damageBoost) damageBoosted(self, &damage);
-				if (self->lifeLeech) lifeLeech(self, &damage);
+				if ((self->magicFlags & MAGIC_LEECH) == MAGIC_LEECH) lifeLeech(self, &damage);
 
 
 
@@ -295,7 +308,8 @@ void useItem(edict_t* self, int item)
 		}
 		break;
 	case(2): //Rage potion
-		self->client->ps.pmove.velocity[2] = 100;
+		self->magicFlags = self->magicFlags |= MAGIC_RAGE;
+		self->client->ps.pmove.velocity[2] = 1000; //Nope! doesn't work! we'll just enable a float mayhaps
 		//self->client->ps.
 		break;
 	case(3): //Mage armor
@@ -315,6 +329,7 @@ void useItem(edict_t* self, int item)
 
 		break;
 	case(4): //Invincibility potion
+		self->flags = self->flags |= FL_GODMODE; //no break pretty please
 
 
 
@@ -324,9 +339,6 @@ void useItem(edict_t* self, int item)
 	
 	
 	}
-
-
-
 
 }
 

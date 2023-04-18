@@ -1,48 +1,48 @@
 ﻿C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Microsoft\VC\v170\Microsoft.CppBuild.targets(503,5): warning MSB8004: Output Directory does not end with a trailing slash.  This build instance will add the slash as it is required to allow proper evaluation of the Output Directory.
   g_weapon.c
-C:\Users\Jay's Desktop\Documents\git\quake2-full\game\g_weapon.c(333,38): warning C4100: 'summon': unreferenced formal parameter
-C:\Users\Jay's Desktop\Documents\git\quake2-full\game\g_weapon.c(709,68): warning C4100: 'plane': unreferenced formal parameter
-C:\Users\Jay's Desktop\Documents\git\quake2-full\game\g_weapon.c(604): warning C4702: unreachable code
-C:\Users\Jay's Desktop\Documents\git\quake2-full\game\g_weapon.c(886): warning C4702: unreachable code
-C:\Users\Jay's Desktop\Documents\git\quake2-full\game\g_weapon.c(632): warning C4702: unreachable code
-C:\Users\Jay's Desktop\Documents\git\quake2-full\game\g_weapon.c(909): warning C4702: unreachable code
-C:\Users\Jay's Desktop\Documents\git\quake2-full\game\g_weapon.c(633): warning C4702: unreachable code
-C:\Users\Jay's Desktop\Documents\git\quake2-full\game\g_weapon.c(911): warning C4702: unreachable code
-C:\Users\Jay's Desktop\Documents\git\quake2-full\game\g_weapon.c(636): warning C4702: unreachable code
-C:\Users\Jay's Desktop\Documents\git\quake2-full\game\g_weapon.c(638): warning C4702: unreachable code
-C:\Users\Jay's Desktop\Documents\git\quake2-full\game\g_weapon.c(641): warning C4702: unreachable code
-C:\Users\Jay's Desktop\Documents\git\quake2-full\game\g_weapon.c(642): warning C4702: unreachable code
-C:\Users\Jay's Desktop\Documents\git\quake2-full\game\g_weapon.c(387): warning C4702: unreachable code
-C:\Users\Jay's Desktop\Documents\git\quake2-full\game\g_weapon.c(390): warning C4702: unreachable code
-C:\Users\Jay's Desktop\Documents\git\quake2-full\game\g_weapon.c(401): warning C4702: unreachable code
-C:\Users\Jay's Desktop\Documents\git\quake2-full\game\g_weapon.c(406): warning C4702: unreachable code
-C:\Users\Jay's Desktop\Documents\git\quake2-full\game\g_weapon.c(413): warning C4702: unreachable code
-C:\Users\Jay's Desktop\Documents\git\quake2-full\game\g_weapon.c(418): warning C4702: unreachable code
-C:\Users\Jay's Desktop\Documents\git\quake2-full\game\g_weapon.c(420): warning C4702: unreachable code
-C:\Users\Jay's Desktop\Documents\git\quake2-full\game\g_weapon.c(421): warning C4702: unreachable code
-C:\Users\Jay's Desktop\Documents\git\quake2-full\game\g_weapon.c(423): warning C4702: unreachable code
-C:\Users\Jay's Desktop\Documents\git\quake2-full\game\g_weapon.c(425): warning C4702: unreachable code
-C:\Users\Jay's Desktop\Documents\git\quake2-full\game\g_weapon.c(426): warning C4702: unreachable code
-C:\Users\Jay's Desktop\Documents\git\quake2-full\game\g_weapon.c(427): warning C4702: unreachable code
-C:\Users\Jay's Desktop\Documents\git\quake2-full\game\g_weapon.c(428): warning C4702: unreachable code
-C:\Users\Jay's Desktop\Documents\git\quake2-full\game\g_weapon.c(430): warning C4702: unreachable code
-C:\Users\Jay's Desktop\Documents\git\quake2-full\game\g_weapon.c(432): warning C4702: unreachable code
-C:\Users\Jay's Desktop\Documents\git\quake2-full\game\g_weapon.c(434): warning C4702: unreachable code
-C:\Users\Jay's Desktop\Documents\git\quake2-full\game\g_weapon.c(444): warning C4702: unreachable code
-C:\Users\Jay's Desktop\Documents\git\quake2-full\game\g_weapon.c(455): warning C4702: unreachable code
-C:\Users\Jay's Desktop\Documents\git\quake2-full\game\g_weapon.c(460): warning C4702: unreachable code
-C:\Users\Jay's Desktop\Documents\git\quake2-full\game\g_weapon.c(462): warning C4702: unreachable code
-C:\Users\Jay's Desktop\Documents\git\quake2-full\game\g_weapon.c(464): warning C4702: unreachable code
-C:\Users\Jay's Desktop\Documents\git\quake2-full\game\g_weapon.c(466): warning C4702: unreachable code
-C:\Users\Jay's Desktop\Documents\git\quake2-full\game\g_weapon.c(470): warning C4702: unreachable code
-C:\Users\Jay's Desktop\Documents\git\quake2-full\game\g_weapon.c(472): warning C4702: unreachable code
-C:\Users\Jay's Desktop\Documents\git\quake2-full\game\g_weapon.c(479): warning C4702: unreachable code
-C:\Users\Jay's Desktop\Documents\git\quake2-full\game\g_weapon.c(486): warning C4702: unreachable code
-C:\Users\Jay's Desktop\Documents\git\quake2-full\game\g_weapon.c(490): warning C4702: unreachable code
-C:\Users\Jay's Desktop\Documents\git\quake2-full\game\g_weapon.c(494): warning C4702: unreachable code
-C:\Users\Jay's Desktop\Documents\git\quake2-full\game\g_weapon.c(496): warning C4702: unreachable code
-C:\Users\Jay's Desktop\Documents\git\quake2-full\game\g_weapon.c(498): warning C4702: unreachable code
-C:\Users\Jay's Desktop\Documents\git\quake2-full\game\g_weapon.c(539): warning C4702: unreachable code
-C:\Users\Jay's Desktop\Documents\git\quake2-full\game\g_weapon.c(380): warning C4702: unreachable code
+C:\Users\jared\Documents\git\quake2-full\game\g_weapon.c(345,38): warning C4100: 'summon': unreferenced formal parameter
+C:\Users\jared\Documents\git\quake2-full\game\g_weapon.c(721,68): warning C4100: 'plane': unreferenced formal parameter
+C:\Users\jared\Documents\git\quake2-full\game\g_weapon.c(898): warning C4702: unreachable code
+C:\Users\jared\Documents\git\quake2-full\game\g_weapon.c(921): warning C4702: unreachable code
+C:\Users\jared\Documents\git\quake2-full\game\g_weapon.c(923): warning C4702: unreachable code
+C:\Users\jared\Documents\git\quake2-full\game\g_weapon.c(616): warning C4702: unreachable code
+C:\Users\jared\Documents\git\quake2-full\game\g_weapon.c(644): warning C4702: unreachable code
+C:\Users\jared\Documents\git\quake2-full\game\g_weapon.c(645): warning C4702: unreachable code
+C:\Users\jared\Documents\git\quake2-full\game\g_weapon.c(648): warning C4702: unreachable code
+C:\Users\jared\Documents\git\quake2-full\game\g_weapon.c(650): warning C4702: unreachable code
+C:\Users\jared\Documents\git\quake2-full\game\g_weapon.c(653): warning C4702: unreachable code
+C:\Users\jared\Documents\git\quake2-full\game\g_weapon.c(654): warning C4702: unreachable code
+C:\Users\jared\Documents\git\quake2-full\game\g_weapon.c(399): warning C4702: unreachable code
+C:\Users\jared\Documents\git\quake2-full\game\g_weapon.c(402): warning C4702: unreachable code
+C:\Users\jared\Documents\git\quake2-full\game\g_weapon.c(413): warning C4702: unreachable code
+C:\Users\jared\Documents\git\quake2-full\game\g_weapon.c(418): warning C4702: unreachable code
+C:\Users\jared\Documents\git\quake2-full\game\g_weapon.c(425): warning C4702: unreachable code
+C:\Users\jared\Documents\git\quake2-full\game\g_weapon.c(430): warning C4702: unreachable code
+C:\Users\jared\Documents\git\quake2-full\game\g_weapon.c(432): warning C4702: unreachable code
+C:\Users\jared\Documents\git\quake2-full\game\g_weapon.c(433): warning C4702: unreachable code
+C:\Users\jared\Documents\git\quake2-full\game\g_weapon.c(435): warning C4702: unreachable code
+C:\Users\jared\Documents\git\quake2-full\game\g_weapon.c(437): warning C4702: unreachable code
+C:\Users\jared\Documents\git\quake2-full\game\g_weapon.c(438): warning C4702: unreachable code
+C:\Users\jared\Documents\git\quake2-full\game\g_weapon.c(439): warning C4702: unreachable code
+C:\Users\jared\Documents\git\quake2-full\game\g_weapon.c(440): warning C4702: unreachable code
+C:\Users\jared\Documents\git\quake2-full\game\g_weapon.c(442): warning C4702: unreachable code
+C:\Users\jared\Documents\git\quake2-full\game\g_weapon.c(444): warning C4702: unreachable code
+C:\Users\jared\Documents\git\quake2-full\game\g_weapon.c(446): warning C4702: unreachable code
+C:\Users\jared\Documents\git\quake2-full\game\g_weapon.c(456): warning C4702: unreachable code
+C:\Users\jared\Documents\git\quake2-full\game\g_weapon.c(467): warning C4702: unreachable code
+C:\Users\jared\Documents\git\quake2-full\game\g_weapon.c(472): warning C4702: unreachable code
+C:\Users\jared\Documents\git\quake2-full\game\g_weapon.c(474): warning C4702: unreachable code
+C:\Users\jared\Documents\git\quake2-full\game\g_weapon.c(476): warning C4702: unreachable code
+C:\Users\jared\Documents\git\quake2-full\game\g_weapon.c(478): warning C4702: unreachable code
+C:\Users\jared\Documents\git\quake2-full\game\g_weapon.c(482): warning C4702: unreachable code
+C:\Users\jared\Documents\git\quake2-full\game\g_weapon.c(484): warning C4702: unreachable code
+C:\Users\jared\Documents\git\quake2-full\game\g_weapon.c(491): warning C4702: unreachable code
+C:\Users\jared\Documents\git\quake2-full\game\g_weapon.c(498): warning C4702: unreachable code
+C:\Users\jared\Documents\git\quake2-full\game\g_weapon.c(502): warning C4702: unreachable code
+C:\Users\jared\Documents\git\quake2-full\game\g_weapon.c(506): warning C4702: unreachable code
+C:\Users\jared\Documents\git\quake2-full\game\g_weapon.c(508): warning C4702: unreachable code
+C:\Users\jared\Documents\git\quake2-full\game\g_weapon.c(510): warning C4702: unreachable code
+C:\Users\jared\Documents\git\quake2-full\game\g_weapon.c(551): warning C4702: unreachable code
+C:\Users\jared\Documents\git\quake2-full\game\g_weapon.c(392): warning C4702: unreachable code
      Creating library .\..\release\gamex86.lib and object .\..\release\gamex86.exp
   game.vcxproj -> C:\Program Files (x86)\Steam\steamapps\common\Quake 2\modtest\gamex86.dll

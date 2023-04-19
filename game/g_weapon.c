@@ -305,7 +305,13 @@ void fire_wand(edict_t* self, vec3_t start, vec3_t aimdir, int damage, int kick)
 	qboolean	water;
 
 	//int elem = self->owner->element;
-	edict_t *explosion = G_Spawn();
+	edict_t* explosion = G_Spawn();
+
+	if ((self->magicFlags & MAGIC_EXPLODE) == MAGIC_EXPLODE)
+	{
+		damage *= .5;
+	}
+
 
 
 
@@ -318,6 +324,19 @@ void fire_wand(edict_t* self, vec3_t start, vec3_t aimdir, int damage, int kick)
 	while (ignore)
 	{
 		tr = gi.trace(from, NULL, NULL, end, ignore, mask);
+
+		VectorCopy(tr.endpos, explosion->s.origin);
+
+		explosion->owner = self;
+		//explosion->dmg = damage;
+		//explosion->dmg_radius = 10;
+		explosion->enemy = tr.ent;
+
+
+
+
+
+
 
 		if (tr.contents & (CONTENTS_SLIME | CONTENTS_LAVA))
 		{
@@ -344,31 +363,9 @@ void fire_wand(edict_t* self, vec3_t start, vec3_t aimdir, int damage, int kick)
 				if (self->damageBoost) damageBoosted(self, &damage);
 				if ((self->magicFlags & MAGIC_LEECH) == MAGIC_LEECH) lifeLeech(self, &damage);
 
-				if ((self->magicFlags & MAGIC_EXPLODE) == MAGIC_EXPLODE)
-				{
-					*explosion->s.origin = *tr.endpos;
 
-					explosion->owner = self;
-					explosion->dmg = damage;
-					explosion->dmg_radius = 10;
-					explosion->enemy = tr.ent;
 
-					//gi.WriteByte(svc_temp_entity);
-					//gi.WriteByte(TE_GRENADE_EXPLOSION);
-
-					gi.WriteByte(svc_temp_entity);
-					gi.WriteByte(TE_GRENADE_EXPLOSION);
-					gi.WritePosition(tr.endpos);
-					gi.multicast(tr.endpos, MULTICAST_PHS);
-
-					T_RadiusDamage(explosion, self, damage, tr.ent, 10, MOD_RAILGUN);
-
-					//Grenade_Explode(explosion);
-					//tr.endpos this should give me the end pos of the trace, can use this for the entity we spawn as the explosions center
-					//we'll want to spawn an entity at the trace if we can
-
-					//T_RadiusDamage(self, ent->owner, ent->dmg, ent->enemy, ent->dmg_radius, mod);
-				}
+				
 
 
 
@@ -377,8 +374,42 @@ void fire_wand(edict_t* self, vec3_t start, vec3_t aimdir, int damage, int kick)
 			}
 		}
 
+		if ((self->magicFlags & MAGIC_EXPLODE) == MAGIC_EXPLODE)
+		{
+
+			
+			
+
+			//gi.WriteByte(svc_temp_entity);
+			//gi.WriteByte(TE_GRENADE_EXPLOSION);
+
+			gi.WriteByte(svc_temp_entity);
+			gi.WriteByte(TE_GRENADE_EXPLOSION);
+			gi.WritePosition(tr.endpos);
+			gi.multicast(tr.endpos, MULTICAST_PHS);
+
+			
+			
+
+
+			
+			T_RadiusDamage(explosion, self, damage*10, tr.ent, 150, MOD_RAILGUN);
+			
+			//Grenade_Explode(explosion);
+			//tr.endpos this should give me the end pos of the trace, can use this for the entity we spawn as the explosions center
+			//we'll want to spawn an entity at the trace if we can
+
+			//T_RadiusDamage(self, ent->owner, ent->dmg, ent->enemy, ent->dmg_radius, mod);
+		}
+
+
+
+
 		VectorCopy(tr.endpos, from);
 	}
+
+
+	G_FreeEdict(explosion);
 
 	// send gun puff / flash
 	gi.WriteByte(svc_temp_entity);

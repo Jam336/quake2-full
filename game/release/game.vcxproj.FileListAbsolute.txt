@@ -1,2 +1,0 @@
-C:\Users\Jay's Desktop\Documents\git\quake2-full\game\release\gamex86.dll
-C:\Users\jared\Documents\git\quake2-full\game\release\gamex86.dll

@@ -1147,3 +1147,6 @@ struct edict_s
 
 
 void useItem (edict_t* self, int potion);
+
+
+void spawn_classname_at(const char* classname, vec3_t position);

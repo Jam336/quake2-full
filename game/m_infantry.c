@@ -544,6 +544,12 @@ mmove_t infantry_move_attack2 = {FRAME_attak201, FRAME_attak208, infantry_frames
 
 void infantry_attack(edict_t *self)
 {
+	if (self->enemy == self->owner)
+	{
+		return;
+	}
+	
+
 	if (range (self, self->enemy) == RANGE_MELEE)
 		self->monsterinfo.currentmove = &infantry_move_attack2;
 	else
@@ -605,3 +611,125 @@ void SP_monster_infantry (edict_t *self)
 
 	walkmonster_start (self);
 }
+
+
+
+
+
+
+
+
+//Jade's Quake summons
+
+
+
+
+void summon_die(edict_t* self, edict_t* inflictor, edict_t* attacker, int damage, vec3_t point)
+{
+	int		n;
+
+	// check for gib
+	if (self->health <= self->gib_health)
+	{
+		gi.sound(self, CHAN_VOICE, gi.soundindex("misc/udeath.wav"), 1, ATTN_NORM, 0);
+		for (n = 0; n < 2; n++)
+			ThrowGib(self, "models/objects/gibs/bone/tris.md2", damage, GIB_ORGANIC);
+		for (n = 0; n < 4; n++)
+			ThrowGib(self, "models/objects/gibs/sm_meat/tris.md2", damage, GIB_ORGANIC);
+		ThrowHead(self, "models/objects/gibs/head2/tris.md2", damage, GIB_ORGANIC);
+		self->deadflag = DEAD_DEAD;
+		return;
+	}
+
+	if (self->deadflag == DEAD_DEAD)
+		return;
+
+	// regular death
+	self->deadflag = DEAD_DEAD;
+	self->takedamage = DAMAGE_YES;
+
+	n = rand() % 3;
+	if (n == 0)
+	{
+		self->monsterinfo.currentmove = &infantry_move_death1;
+		gi.sound(self, CHAN_VOICE, sound_die2, 1, ATTN_NORM, 0);
+	}
+	else if (n == 1)
+	{
+		self->monsterinfo.currentmove = &infantry_move_death2;
+		gi.sound(self, CHAN_VOICE, sound_die1, 1, ATTN_NORM, 0);
+	}
+	else
+	{
+		self->monsterinfo.currentmove = &infantry_move_death3;
+		gi.sound(self, CHAN_VOICE, sound_die2, 1, ATTN_NORM, 0);
+	}
+}
+
+
+
+
+
+
+
+
+
+
+
+
+void SP_summon_infantry(edict_t* self)
+{
+	
+
+	sound_pain1 = gi.soundindex("infantry/infpain1.wav");
+	sound_pain2 = gi.soundindex("infantry/infpain2.wav");
+	sound_die1 = gi.soundindex("infantry/infdeth1.wav");
+	sound_die2 = gi.soundindex("infantry/infdeth2.wav");
+
+	sound_gunshot = gi.soundindex("infantry/infatck1.wav");
+	sound_weapon_cock = gi.soundindex("infantry/infatck3.wav");
+	sound_punch_swing = gi.soundindex("infantry/infatck2.wav");
+	sound_punch_hit = gi.soundindex("infantry/melee2.wav");
+
+	sound_sight = gi.soundindex("infantry/infsght1.wav");
+	sound_search = gi.soundindex("infantry/infsrch1.wav");
+	sound_idle = gi.soundindex("infantry/infidle1.wav");
+
+
+	self->movetype = MOVETYPE_STEP;
+	self->solid = SOLID_BBOX;
+	self->s.modelindex = gi.modelindex("models/monsters/infantry/tris.md2");
+	VectorSet(self->mins, -16, -16, -24);
+	VectorSet(self->maxs, 16, 16, 32);
+
+	self->health = 100;
+	self->gib_health = -40;
+	self->mass = 200;
+
+	
+
+
+	self->pain = infantry_pain;
+	self->die = summon_die;
+
+	self->monsterinfo.stand = infantry_stand;
+	self->monsterinfo.walk = infantry_walk;
+	self->monsterinfo.run = infantry_run;
+	self->monsterinfo.dodge = infantry_dodge;
+	self->monsterinfo.attack = infantry_attack;
+	self->monsterinfo.melee = NULL;
+	self->monsterinfo.sight = infantry_sight;
+	self->monsterinfo.idle = infantry_fidget;
+
+	self->monsterinfo.aiflags = AI_GOOD_GUY;
+
+
+	gi.linkentity(self);
+
+	self->monsterinfo.currentmove = &infantry_move_stand;
+	self->monsterinfo.scale = MODEL_SCALE;
+
+	walkmonster_start(self);
+}
+
+

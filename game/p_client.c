@@ -608,6 +608,7 @@ void InitClientPersistant (gclient_t *client)
 {
 	gitem_t		*item;
 
+	
 	memset (&client->pers, 0, sizeof(client->pers));
 
 	item = FindItem("Blaster");
@@ -1104,6 +1105,9 @@ void PutClientInServer (edict_t *ent)
 	int		i;
 	client_persistant_t	saved;
 	client_respawn_t	resp;
+
+
+	ent->element = rand() % 4;; //this could crash things;
 
 	// find a spawn point
 	// do it before setting health back up, so farthest

@@ -519,8 +519,12 @@ qboolean FindTarget (edict_t *self)
 			}
 		}
 
-		self->enemy = client;
 
+		
+		if (client != self->owner)
+		{
+			self->enemy = client;
+		}
 		if (strcmp(self->enemy->classname, "player_noise") != 0)
 		{
 			self->monsterinfo.aiflags &= ~AI_SOUND_TARGET;

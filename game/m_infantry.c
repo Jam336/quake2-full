@@ -628,6 +628,11 @@ void summon_die(edict_t* self, edict_t* inflictor, edict_t* attacker, int damage
 {
 	int		n;
 
+	self->owner->magicFlags = self->owner->magicFlags & ~SUMMON_MASK;
+
+
+
+
 	// check for gib
 	if (self->health <= self->gib_health)
 	{

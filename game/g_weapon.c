@@ -491,14 +491,34 @@ void useItem(edict_t* self, int item)
 
 }
 
-void summonSpirit(edict_t* self, int summon)
+void summonSpirit(edict_t* self)
 {
 	edict_t *spirit;
 //start with entity initializiation that's constant between diff summons, then switch case where they differ
 
+
+
+
+
+
 	spirit = G_Spawn();
 	spirit->svflags = SVF_MONSTER;
 	spirit->owner = self->owner;
+	spirit->classname = "summon_ally";
+
+	VectorCopy(self->s.origin, spirit->s.origin);
+
+	//This pulls 'em out of the ground!
+	spirit->s.origin[2] += 30;
+	spirit->think = monster_think;
+
+	
+	ED_CallSpawn(spirit);
+
+	
+	G_FreeEdict(self);
+
+
 
 
 }
@@ -812,7 +832,7 @@ fire_grenade
 */
 
 
-
+//this is the grenade launcher, we'll hijack this for entity spawning
 void fire_grenade (edict_t *self, vec3_t start, vec3_t aimdir, int damage, int speed, float timer, float damage_radius)
 {
 	edict_t	*grenade;
@@ -836,9 +856,9 @@ void fire_grenade (edict_t *self, vec3_t start, vec3_t aimdir, int damage, int s
 	VectorClear (grenade->maxs);
 	grenade->s.modelindex = gi.modelindex ("models/objects/grenade/tris.md2");
 	grenade->owner = self;
-	grenade->touch = Grenade_Touch;
+	//grenade->touch = summonSpirit;
 	grenade->nextthink = level.time + timer;
-	grenade->think = Grenade_Explode;
+	grenade->think = summonSpirit;
 	grenade->dmg = damage;
 	grenade->dmg_radius = damage_radius;
 	grenade->classname = "grenade";
@@ -846,6 +866,7 @@ void fire_grenade (edict_t *self, vec3_t start, vec3_t aimdir, int damage, int s
 	gi.linkentity (grenade);
 }
 
+//This is the hand grenade, we'll hijack this for item usage
 void fire_grenade2 (edict_t *self, vec3_t start, vec3_t aimdir, int damage, int speed, float timer, float damage_radius, qboolean held)
 {
 	edict_t	*grenade;

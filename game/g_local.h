@@ -50,6 +50,12 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define	MAGIC_EXPLODE				0x00000002
 #define	MAGIC_RAGE					0x00000010
 
+#define SUMMON_MASK					0x00001F00 //Covers all summons
+#define	SUMMON_HEAL					0x00000100
+#define	SUMMON_AMMO					0x00000200
+#define	SUMMON_ARMOR				0x00000400
+#define SUMMON_DAMAGE				0x00000800
+#define SUMMON_ALLY					0x00001000 //I know, it's different, but it's fine
 
 
 // edict->spawnflags

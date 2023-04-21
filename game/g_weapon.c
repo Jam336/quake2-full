@@ -311,7 +311,11 @@ void fire_wand(edict_t* self, vec3_t start, vec3_t aimdir, int damage, int kick)
 	{
 		damage *= .5;
 	}
-
+	
+	if ((self->magicFlags & SUMMON_DAMAGE) == SUMMON_DAMAGE)
+	{
+		damage *= 2;
+	}
 
 
 
@@ -491,6 +495,10 @@ void useItem(edict_t* self, int item)
 
 }
 
+
+
+
+
 void summonSpirit(edict_t* self)
 {
 	edict_t *spirit;
@@ -498,20 +506,37 @@ void summonSpirit(edict_t* self)
 
 
 
-
-
+	if (self->owner->magicFlags & SUMMON_MASK)
+	{
+		G_FreeEdict(self); 
+		return;
+	}
 
 	spirit = G_Spawn();
 	spirit->svflags = SVF_MONSTER;
 	spirit->owner = self->owner;
+	//spirit->classname = "monster_infantry";
 	spirit->classname = "summon_ally";
+
+
+
+	//we'll also want to adjust the flags of the owner so they match the spiritsS
+
+
+	spirit->owner->magicFlags = spirit->owner->magicFlags | SUMMON_DAMAGE; //We'll use the damage summons for now for Proof Of Concept
+ 
+
+
 
 	VectorCopy(self->s.origin, spirit->s.origin);
 
 	//This pulls 'em out of the ground!
 	spirit->s.origin[2] += 30;
-	spirit->think = monster_think;
-
+	
+	//spirit->think = monster_think;
+	//spirit->think = healthThink;
+	
+	//spirit->nextthink = 1;
 	
 	ED_CallSpawn(spirit);
 

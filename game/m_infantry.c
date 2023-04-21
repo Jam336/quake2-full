@@ -70,12 +70,126 @@ mframe_t infantry_frames_stand [] =
 	ai_stand, 0, NULL,
 	ai_stand, 0, NULL
 };
-mmove_t infantry_move_stand = {FRAME_stand50, FRAME_stand71, infantry_frames_stand, NULL};
+
+mmove_t infantry_move_stand = { FRAME_stand50, FRAME_stand71, infantry_frames_stand, NULL };
+
+void summon_think(edict_t* self)
+{
+	self->magicthink;
+}
+
+
+
+mframe_t summon_frames_stand[] =
+{
+	ai_stand, 0, summon_think,
+	ai_stand, 0, NULL,
+	ai_stand, 0, NULL,
+	ai_stand, 0, NULL,
+	ai_stand, 0, NULL,
+	ai_stand, 0, NULL,
+	ai_stand, 0, NULL,
+	ai_stand, 0, NULL,
+	ai_stand, 0, NULL,
+	ai_stand, 0, NULL,
+	ai_stand, 0, NULL,
+	ai_stand, 0, NULL,
+	ai_stand, 0, NULL,
+	ai_stand, 0, NULL,
+	ai_stand, 0, NULL,
+	ai_stand, 0, NULL,
+	ai_stand, 0, NULL,
+	ai_stand, 0, NULL,
+	ai_stand, 0, NULL,
+	ai_stand, 0, NULL,
+	ai_stand, 0, NULL,
+	ai_stand, 0, NULL
+};
+
+mmove_t summon_move_stand = { FRAME_stand50, FRAME_stand71, summon_frames_stand, NULL };
+
+
+
+
+
+
+
 
 void infantry_stand (edict_t *self)
 {
 	self->monsterinfo.currentmove = &infantry_move_stand;
 }
+
+
+void summon_stand(edict_t* self)
+{
+	self->monsterinfo.currentmove = &summon_move_stand;
+}
+
+
+mframe_t summon_frames_fidget[] =
+{
+	ai_stand, 1,  summon_think,
+	ai_stand, 0,  NULL,
+	ai_stand, 1,  NULL,
+	ai_stand, 3,  NULL,
+	ai_stand, 6,  NULL,
+	ai_stand, 3,  NULL,
+	ai_stand, 0,  NULL,
+	ai_stand, 0,  NULL,
+	ai_stand, 0,  NULL,
+	ai_stand, 0,  NULL,
+	ai_stand, 1,  NULL,
+	ai_stand, 0,  NULL,
+	ai_stand, 0,  NULL,
+	ai_stand, 0,  NULL,
+	ai_stand, 0,  NULL,
+	ai_stand, 1,  NULL,
+	ai_stand, 0,  NULL,
+	ai_stand, -1, NULL,
+	ai_stand, 0,  NULL,
+	ai_stand, 0,  NULL,
+	ai_stand, 1,  NULL,
+	ai_stand, 0,  NULL,
+	ai_stand, -2, NULL,
+	ai_stand, 1,  NULL,
+	ai_stand, 1,  NULL,
+	ai_stand, 1,  NULL,
+	ai_stand, -1, NULL,
+	ai_stand, 0,  NULL,
+	ai_stand, 0,  NULL,
+	ai_stand, -1, NULL,
+	ai_stand, 0,  NULL,
+	ai_stand, 0,  NULL,
+	ai_stand, 0,  NULL,
+	ai_stand, 0,  NULL,
+	ai_stand, 0,  NULL,
+	ai_stand, -1, NULL,
+	ai_stand, 0,  NULL,
+	ai_stand, 0,  NULL,
+	ai_stand, 1,  NULL,
+	ai_stand, 0,  NULL,
+	ai_stand, 0,  NULL,
+	ai_stand, -1, NULL,
+	ai_stand, -1, NULL,
+	ai_stand, 0,  NULL,
+	ai_stand, -3, NULL,
+	ai_stand, -2, NULL,
+	ai_stand, -3, NULL,
+	ai_stand, -3, NULL,
+	ai_stand, -2, NULL
+};
+mmove_t summon_move_fidget = { FRAME_stand01, FRAME_stand49, summon_frames_fidget, summon_stand };
+
+void summon_fidget(edict_t* self)
+{
+	self->monsterinfo.currentmove = &summon_move_fidget;
+	gi.sound(self, CHAN_VOICE, sound_idle, 1, ATTN_IDLE, 0);
+}
+
+
+
+
 
 
 mframe_t infantry_frames_fidget [] =
@@ -674,6 +788,22 @@ void summon_die(edict_t* self, edict_t* inflictor, edict_t* attacker, int damage
 
 
 
+void healthThink(edict_t* self)
+{
+	int max = self->owner->max_health * 1.5;
+
+	if (self->owner->health < max)
+	{
+		self->owner->health += 10;
+	}
+
+
+
+
+
+
+}
+
 
 
 
@@ -715,24 +845,32 @@ void SP_summon_infantry(edict_t* self)
 
 
 	self->pain = infantry_pain;
+	//self->die = infantry_die;
 	self->die = summon_die;
 
-	self->monsterinfo.stand = infantry_stand;
+	self->monsterinfo.stand = healthThink;
 	self->monsterinfo.walk = infantry_walk;
 	self->monsterinfo.run = infantry_run;
 	self->monsterinfo.dodge = infantry_dodge;
+	
 	self->monsterinfo.attack = infantry_attack;
 	self->monsterinfo.melee = NULL;
 	self->monsterinfo.sight = infantry_sight;
-	self->monsterinfo.idle = infantry_fidget;
+	self->monsterinfo.idle = healthThink;
+	
+	//self->think = healthThink;
 
-	self->monsterinfo.aiflags = AI_GOOD_GUY;
+	self->monsterinfo.aiflags |= AI_GOOD_GUY;
 
+	self->magicthink = healthThink;
 
 	gi.linkentity(self);
 
 	self->monsterinfo.currentmove = &infantry_move_stand;
 	self->monsterinfo.scale = MODEL_SCALE;
+
+
+	//monster_start(self);
 
 	walkmonster_start(self);
 }

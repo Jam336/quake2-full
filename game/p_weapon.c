@@ -600,6 +600,9 @@ void Weapon_Grenade (edict_t *ent)
 		return;
 	}
 
+	
+
+
 	if (ent->client->weaponstate == WEAPON_ACTIVATING)
 	{
 		ent->client->weaponstate = WEAPON_READY;
@@ -714,6 +717,14 @@ void weapon_grenadelauncher_fire (edict_t *ent)
 	int		damage = 120;
 	float	radius;
 
+
+	
+
+	gi.cprintf(ent, PRINT_HIGH, "%u\n", ent->magicFlags);
+
+
+
+
 	radius = damage+40;
 	if (is_quad)
 		damage *= 4;
@@ -725,8 +736,10 @@ void weapon_grenadelauncher_fire (edict_t *ent)
 	VectorScale (forward, -2, ent->client->kick_origin);
 	ent->client->kick_angles[0] = -1;
 
-	fire_grenade (ent, start, forward, damage, 600, 2.5, radius);
-
+	if (!(ent->magicFlags & SUMMON_MASK))
+	{
+		fire_grenade(ent, start, forward, damage, 600, 2.5, radius);
+	}
 	gi.WriteByte (svc_muzzleflash);
 	gi.WriteShort (ent-g_edicts);
 	gi.WriteByte (MZ_GRENADE | is_silenced);
@@ -741,7 +754,7 @@ void weapon_grenadelauncher_fire (edict_t *ent)
 		{
 			ent->client->pers.inventory[ent->client->ammo_index] = ent->client->pers.inventory[ent->client->ammo_index] - ent->damageBoost;
 		}
-		ent->client->pers.inventory[ent->client->ammo_index]--;
+		if (!(ent->magicFlags & SUMMON_MASK)) ent->client->pers.inventory[ent->client->ammo_index]--;
 }
 
 void Weapon_GrenadeLauncher (edict_t *ent)

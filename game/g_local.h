@@ -1142,6 +1142,7 @@ struct edict_s
 	int magicFlags; //
 
 	
+	void (*magicthink)(edict_t* self);
 
 
 	

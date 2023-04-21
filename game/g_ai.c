@@ -410,7 +410,7 @@ qboolean FindTarget (edict_t *self)
 	qboolean	heardit;
 	int			r;
 
-	if (self->monsterinfo.aiflags & AI_GOOD_GUY)
+	if (self->monsterinfo.aiflags & AI_GOOD_GUY) //We'll want to add some code here
 	{
 		if (self->goalentity && self->goalentity->inuse && self->goalentity->classname)
 		{
@@ -465,6 +465,10 @@ qboolean FindTarget (edict_t *self)
 
 	if (client == self->enemy)
 		return true;	// JDC false;
+
+
+
+	//JADE LOOK HERE
 
 	if (client->client)
 	{

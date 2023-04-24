@@ -579,6 +579,16 @@ qboolean FindTarget (edict_t *self)
 		self->enemy = client;
 	}
 
+	//JADE, DO SOME SHIT HERE
+	if (self->enemy->summon) //Lets hope this works and causes them to target the summon rather than the player!
+	{
+		self->enemy = self->enemy->summon;
+	}
+
+
+
+
+
 //
 // got one
 //

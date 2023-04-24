@@ -744,6 +744,7 @@ void summon_die(edict_t* self, edict_t* inflictor, edict_t* attacker, int damage
 
 	self->owner->magicFlags = self->owner->magicFlags & ~SUMMON_MASK;
 
+	self->owner->summon = NULL;
 
 
 

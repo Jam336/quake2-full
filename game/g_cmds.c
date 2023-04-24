@@ -412,26 +412,41 @@ void Cmd_Potion_f(edict_t* ent)
 
 	if (Q_stricmp(name, "0") == 0)
 	{
-		useItem(ent,0);
+
+		ent->itemEquip = ITEM_HEAL;
+
+		useItem(ent);
 	}
 
 	if (Q_stricmp(name, "1") == 0)
 	{
-		useItem(ent, 1);
+
+		ent->itemEquip = ITEM_AMMO;
+
+		useItem(ent);
 	}
 
 	if (Q_stricmp(name, "2") == 0)
 	{
-		useItem(ent, 2);
+
+		ent->itemEquip = ITEM_DAMAGE;
+
+		useItem(ent);
 	}
 
 	if (Q_stricmp(name, "3") == 0)
 	{
-		useItem(ent, 3);
+
+		ent->itemEquip = ITEM_ARMOR;
+
+		useItem(ent);
 	}
 	if (Q_stricmp(name, "4") == 0)
 	{
-		useItem(ent, 4);
+
+		ent->itemEquip = ITEM_GOD;
+
+		useItem(ent);
 	}
 
 }

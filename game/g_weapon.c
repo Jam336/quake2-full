@@ -438,18 +438,20 @@ void fire_wand(edict_t* self, vec3_t start, vec3_t aimdir, int damage, int kick)
 
 
 
-void useItem(edict_t* self, int item)
+void useItem(edict_t* self)
 {
 	gitem_t* it;
 	gitem_armor_t* info;
 
+
+
 //something something, switch case, with item possibly
-	switch (item)
+	switch (self->itemEquip)
 	{
-	case(0): //Health potion
+	case(ITEM_HEAL): //Health potion
 		self->health = self->max_health;
 		break;
-	case(1): //Mana potion
+	case(ITEM_AMMO): //Mana potion
 		for (int i = 0; i < game.num_items; i++)
 		{
 			it = itemlist + i;
@@ -460,12 +462,12 @@ void useItem(edict_t* self, int item)
 			Add_Ammo(self, it, 1000);
 		}
 		break;
-	case(2): //Rage potion
+	case(ITEM_DAMAGE): //Rage potion
 		self->magicFlags = self->magicFlags |= MAGIC_RAGE;
 		self->client->ps.pmove.velocity[2] = 1000; //Nope! doesn't work! we'll just enable a float mayhaps
 		//self->client->ps.
 		break;
-	case(3): //Mage armor
+	case(ITEM_ARMOR): //Mage armor
 		
 
 		it = FindItem("Jacket Armor");
@@ -481,7 +483,7 @@ void useItem(edict_t* self, int item)
 
 
 		break;
-	case(4): //Invincibility potion
+	case(ITEM_GOD): //Invincibility potion
 		self->flags = self->flags |= FL_GODMODE; //no break pretty please
 
 
@@ -515,6 +517,9 @@ void summonSpirit(edict_t* self)
 	spirit = G_Spawn();
 	spirit->svflags = SVF_MONSTER;
 	spirit->owner = self->owner;
+
+	spirit->owner->summon = spirit;
+
 	//spirit->classname = "monster_infantry";
 	spirit->classname = "summon_ally";
 
@@ -897,6 +902,12 @@ void fire_grenade2 (edict_t *self, vec3_t start, vec3_t aimdir, int damage, int 
 	edict_t	*grenade;
 	vec3_t	dir;
 	vec3_t	forward, right, up;
+
+	useItem(self);
+
+
+
+	return;//Anything below this, we don't care about
 
 	vectoangles (aimdir, dir);
 	AngleVectors (dir, forward, right, up);

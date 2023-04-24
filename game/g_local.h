@@ -55,7 +55,16 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define	SUMMON_AMMO					0x00000200
 #define	SUMMON_ARMOR				0x00000400
 #define SUMMON_DAMAGE				0x00000800
-#define SUMMON_ALLY					0x00001000 //I know, it's different, but it's fine
+#define SUMMON_GOD					0x00001000 //I know, it's different, but it's fine
+
+#define ITEM_MASK					0x001F0000 //Covers all items
+#define	ITEM_HEAL					0x00010000
+#define	ITEM_AMMO					0x00020000
+#define	ITEM_ARMOR					0x00040000
+#define ITEM_DAMAGE					0x00080000
+#define ITEM_GOD					0x00100000 
+
+
 
 
 // edict->spawnflags
@@ -1127,7 +1136,7 @@ struct edict_s
 	//Jade vars
 
 	int			element;	//
-	int			itemEquip;	//
+	int			itemEquip;	// We can use this for out Item flag!
 	int			spellMod;	//
 
 	//Spell customization
@@ -1136,6 +1145,12 @@ struct edict_s
 	int damageBoost; //starts a 0 with no boost, and then from there we'll raise 1.5 to the power of damageBoost for it's effect and subtract the additional ammount of ammo used
 	int fireSpeed; //Not sure how we'll do this one
 	int magicRadius; //A radius for blast damage, uses more ammo just like damage boost
+
+	int selectFlag;
+
+
+
+	edict_t* summon;
 
 	
 
@@ -1153,7 +1168,7 @@ struct edict_s
 };
 
 
-void useItem (edict_t* self, int potion);
+void useItem (edict_t* self);
 
 
 void spawn_classname_at(const char* classname, vec3_t position);

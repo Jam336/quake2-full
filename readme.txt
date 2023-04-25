@@ -1,29 +1,37 @@
+Replace weapons with wands
+-All weapons are now wands and use Mana, to see this change give yourself all weapons and collect some Mana Cells
 
-This is the complete source code for Quake 2, version 3.19, buildable with
-visual C++ 6.0.  The linux version should be buildable, but we haven't
-tested it for the release.
+5 Spell customization options
+-lifeLeech
+-Explosion
+-Element Shift
+-Damage Boost
+-You can select a respective option with the , and . keys and choose it by pressing m
 
-The code is all licensed under the terms of the GPL (gnu public license).  
-You should read the entire license, but the gist of it is that you can do 
-anything you want with the code, including sell your new version.  The catch 
-is that if you distribute new binary versions, you are required to make the 
-entire source code available for free to everyone.
+5 usable items (thematically appropriate)
+-Health Potion
+-Mana Potion
+-Armor Potion
+-Rage Potion
+-God potion
+-You can select a respective option with the , and . keys and choose it by pressing m
+-you can then use the potion by "uncorking it" (throwing a grenade)
 
-The primary intent of this release is for entertainment and educational 
-purposes, but the GPL does allow commercial exploitation if you obey the 
-full license.  If you want to do something commercial and you just can't bear 
-to have your source changes released, we could still negotiate a separate 
-license agreement (for $$$), but I would encourage you to just live with the 
-GPL.
+5 different summons
+-Heal Summon
+-Mana Summon
+-Armor Summon
+-Damage Summon
+-God summon
+-You can select a respective option with the , and . keys and choose it by pressing m
+-You can then spawn your summon by hatching it's egg (firing the grenade launcher)
+-you can only have one summon at a time, should you wish to change your summon, you must dessumon it (use the BFG)
 
-All of the Q2 data files remain copyrighted and licensed under the 
-original terms, so you cannot redistribute data from the original game, but if 
-you do a true total conversion, you can create a standalone game based on 
-this code.
+Affiinity System (Damadge affinity) Different types do more/less damage depending on affinities
+-When attacking or being attacked by enemies, a check is made to see if the two have weak or strong elements
+-if the attacker has a strong element, they deal double damage to the enemy
+-if the attacker has a weak element, they deal half damage
+-if the attacker has a neutral or the same element, no reduction or boost will happen
 
-Thanks to Robert Duffy for doing the grunt work of building this release.
-
-John Carmack
-Id Software
-
-
+HELP SCREEN
+the in game help screen can be seen with the "help" command

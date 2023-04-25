@@ -558,7 +558,7 @@ void Cmd_Select(edict_t* ent)
 
 	if (ent->selectFlag & SUMMON_MASK) //we'll want to do something similair to item use
 	{
-		ent->magicFlags = (ent->flags & ~SUMMON_MASK) | ent->selectFlag; //alright, first, we clear any summons we have, then we add out select flag
+		ent->magicFlags = (ent->magicFlags & ~SUMMON_MASK) | ent->selectFlag; //alright, first, we clear any summons we have, then we add out select flag
 		return;
 	}
 
@@ -625,6 +625,15 @@ void Cmd_Next_Select_p(edict_t* ent)
 
 	gi.cprintf(ent, PRINT_HIGH, "Select After %x\n", ent->selectFlag);
 
+}
+
+void Cmd_Clear_Magic_p(edict_t* ent)
+{
+	gi.cprintf(ent, PRINT_HIGH, "Select Before %x,", ent->magicFlags);
+
+	ent->magicFlags = 0;
+
+	gi.cprintf(ent, PRINT_HIGH, "Select After %x\n", ent->magicFlags);
 }
 
 
@@ -1275,6 +1284,8 @@ void ClientCommand (edict_t *ent)
 		Cmd_Next_Select_p(ent);
 	else if (Q_stricmp(cmd, "select") == 0)
 		Cmd_Select_p(ent);
+	else if (Q_stricmp(cmd, "clearmagic") == 0)
+		Cmd_Clear_Magic_p(ent);
 
 
 

@@ -54,7 +54,10 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #define	MAGIC_RAGE					0x00000010
 
-#define SUMMON_MASK					0x00001F00 //Covers all summons
+
+#define SUMMON_RAGE					0x00002000 //Damage in relation to summon
+
+#define SUMMON_MASK					0x000011F00 //Covers all summons
 #define	SUMMON_HEAL					0x00000100
 #define	SUMMON_AMMO					0x00000200
 #define	SUMMON_ARMOR				0x00000400

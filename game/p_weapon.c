@@ -720,7 +720,7 @@ void weapon_grenadelauncher_fire (edict_t *ent)
 
 	
 
-	gi.cprintf(ent, PRINT_HIGH, "%u\n", ent->magicFlags);
+	gi.cprintf(ent, PRINT_HIGH, "%x\n", ent->magicFlags);
 
 
 
@@ -736,7 +736,7 @@ void weapon_grenadelauncher_fire (edict_t *ent)
 	VectorScale (forward, -2, ent->client->kick_origin);
 	ent->client->kick_angles[0] = -1;
 
-	if (!(ent->magicFlags & SUMMON_MASK))
+	if (!(ent->summon)) //If the entity firing, does not have a summon, fire!
 	{
 		fire_grenade(ent, start, forward, damage, 600, 2.5, radius);
 	}

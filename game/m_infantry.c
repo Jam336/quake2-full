@@ -742,7 +742,26 @@ void summon_die(edict_t* self, edict_t* inflictor, edict_t* attacker, int damage
 {
 	int		n;
 
-	self->owner->magicFlags = self->owner->magicFlags & ~SUMMON_MASK;
+	//self->owner->magicFlags = self->owner->magicFlags & ~SUMMON_MASK;
+
+	switch (self->magicFlags)
+	{
+	case(SUMMON_DAMAGE):
+		self->owner->magicFlags &= ~SUMMON_RAGE;
+		break;
+	case(SUMMON_GOD):
+		self->flags &= ~FL_GODMODE;
+		break;
+	}
+
+
+
+
+
+
+
+
+
 
 	self->owner->summon = NULL;
 
@@ -805,10 +824,15 @@ void healthThink(edict_t* self)
 
 }
 
+void ammoThink(edict_t* self)
+{
 
+}
 
+void armorThink(edict_t* self)
+{
 
-
+}
 
 
 
@@ -843,13 +867,36 @@ void SP_summon_infantry(edict_t* self)
 	self->mass = 200;
 
 	
+	switch (self->magicFlags)
+	{
+	case(SUMMON_HEAL):
+		self->magicthink = healthThink;
+		break;
+	case(SUMMON_AMMO):
+		self->magicthink = ammoThink;
+		break;
+	case(SUMMON_ARMOR):
+		self->magicthink = armorThink;
+		break;
+	case(SUMMON_DAMAGE):
+		self->owner->magicFlags |= SUMMON_RAGE;
+		break;
+	case(SUMMON_GOD):
+		self->owner->flags |= FL_GODMODE; //enabling godmode
+		break;
+	}
+
+
+
+
+
 
 
 	self->pain = infantry_pain;
 	//self->die = infantry_die;
 	self->die = summon_die;
 
-	self->monsterinfo.stand = healthThink;
+	self->monsterinfo.stand = self->magicthink;
 	self->monsterinfo.walk = infantry_walk;
 	self->monsterinfo.run = infantry_run;
 	self->monsterinfo.dodge = infantry_dodge;
@@ -857,13 +904,13 @@ void SP_summon_infantry(edict_t* self)
 	self->monsterinfo.attack = infantry_attack;
 	self->monsterinfo.melee = NULL;
 	self->monsterinfo.sight = infantry_sight;
-	self->monsterinfo.idle = healthThink;
+	self->monsterinfo.idle = self->magicthink;
 	
 	//self->think = healthThink;
 
 	self->monsterinfo.aiflags |= AI_GOOD_GUY;
 
-	self->magicthink = healthThink;
+	//self->magicthink = healthThink;
 
 	gi.linkentity(self);
 

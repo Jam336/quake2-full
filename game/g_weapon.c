@@ -312,7 +312,7 @@ void fire_wand(edict_t* self, vec3_t start, vec3_t aimdir, int damage, int kick)
 		damage *= .5;
 	}
 	
-	if ((self->magicFlags & SUMMON_DAMAGE) == SUMMON_DAMAGE)
+	if ((self->magicFlags & SUMMON_RAGE) == SUMMON_RAGE)
 	{
 		damage *= 2;
 	}
@@ -508,7 +508,7 @@ void summonSpirit(edict_t* self)
 
 
 
-	if (self->owner->magicFlags & SUMMON_MASK)
+	if (self->owner->summon)
 	{
 		G_FreeEdict(self); 
 		return;
@@ -522,13 +522,14 @@ void summonSpirit(edict_t* self)
 
 	//spirit->classname = "monster_infantry";
 	spirit->classname = "summon_ally";
+	spirit->magicFlags = spirit->owner->magicFlags & SUMMON_MASK;
 
 
 
 	//we'll also want to adjust the flags of the owner so they match the spiritsS
 
 
-	spirit->owner->magicFlags = spirit->owner->magicFlags | SUMMON_DAMAGE; //We'll use the damage summons for now for Proof Of Concept
+	//spirit->owner->magicFlags = spirit->owner->magicFlags | SUMMON_DAMAGE; //We'll use the damage summons for now for Proof Of Concept
  
 
 

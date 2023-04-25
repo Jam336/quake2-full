@@ -290,6 +290,11 @@ void Rage(edict_t* self, int* damage)
 		return;
 }
 
+void AmmoLeech(edict_t* self, edict_t* other, int* damage)
+{
+
+}
+
 
 
 

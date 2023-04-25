@@ -750,7 +750,7 @@ void summon_die(edict_t* self, edict_t* inflictor, edict_t* attacker, int damage
 		self->owner->magicFlags &= ~SUMMON_RAGE;
 		break;
 	case(SUMMON_GOD):
-		self->flags &= ~FL_GODMODE;
+		self->owner->flags &= ~FL_GODMODE;
 		break;
 	}
 
@@ -827,11 +827,25 @@ void healthThink(edict_t* self)
 void ammoThink(edict_t* self)
 {
 
+
+
+	gitem_t *item = FindItemByClassname("ammo_cells");
+
+
+
+	Add_Ammo(self->owner, item, 20);
+	return;
 }
 
 void armorThink(edict_t* self)
 {
+	gitem_armor_t* info;
 
+	gitem_t* it = FindItem("Jacket Armor");
+	self->owner->client->pers.inventory[ITEM_INDEX(it)] = 0;
+
+	info = (gitem_armor_t*)it->info;
+	self->owner->client->pers.inventory[ITEM_INDEX(it)] = info->max_count;
 }
 
 
@@ -879,10 +893,12 @@ void SP_summon_infantry(edict_t* self)
 		self->magicthink = armorThink;
 		break;
 	case(SUMMON_DAMAGE):
-		self->owner->magicFlags |= SUMMON_RAGE;
+		self->owner->magicFlags = self->owner->flags | SUMMON_RAGE;
+		self->magicthink = infantry_stand;
 		break;
 	case(SUMMON_GOD):
-		self->owner->flags |= FL_GODMODE; //enabling godmode
+		self->owner->flags = self->owner->flags | FL_GODMODE; //enabling godmode
+		self->magicthink = infantry_stand;
 		break;
 	}
 

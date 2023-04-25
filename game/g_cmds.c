@@ -21,6 +21,55 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "m_player.h"
 
 
+mask_name names[] =
+{
+	{MAGIC_LEECH,		"Life_Leech"},
+	{MAGIC_EXPLODE,		"Explode"},
+	{MAGIC_ELEMENT,		"Element"},
+	{MAGIC_DMG,			"Damage_Boost"},
+	{MAGIC_AMMO_LEECH,	"Mana_Leech"},
+
+	{SUMMON_HEAL,		"Heal_Summon"},
+	{SUMMON_AMMO,		"Mana_Summon"},
+	{SUMMON_ARMOR,		"Armor_Summon"},
+	{SUMMON_DAMAGE,		"Damage_Summon"},
+	{SUMMON_GOD,		"God_Summon"},
+
+	{ITEM_HEAL,			"Heal_Potion"},
+	{ITEM_AMMO,			"Mana_Potion"},
+	{ITEM_ARMOR,		"Armor_Potion"},
+	{ITEM_DAMAGE,		"Rage_Potion"},
+	{ITEM_GOD,			"God_Potion"}
+
+};
+
+void getMaskName(int Mask, char** name)
+{
+	mask_name* maskname;
+
+
+	
+	for (mask_name* mname = &names[0]; mname < names + 15; mname++) {
+		if (mname->mask == Mask)
+		{
+			*name = mname->name;
+			return;
+		}
+		//mname->name will give you name, mname->mask will give you the mask
+	}
+	
+	*name = "null";
+	return;
+
+}
+
+
+
+
+
+
+
+
 char *ClientTeam (edict_t *ent)
 {
 	char		*p;
@@ -599,17 +648,25 @@ void Cmd_Select_p(edict_t* ent)
 
 	gi.cprintf(ent, PRINT_HIGH, "Flags After %x\n", ent->magicFlags);
 
+	//gi.cprintf(ent, PRINT_HIGH, "Mask %x,", GAP_MASK);
+
+	//gi.cprintf(ent, PRINT_HIGH, "Dynamic Mask Before %x\n", DYNAMIC_MASK);
+
 
 
 }
 
 void Cmd_Prev_Select_p(edict_t* ent)
 {
-	gi.cprintf(ent, PRINT_HIGH, "Select Before %x,", ent->selectFlag);
+	char* temp = "NULL";
+
+	//gi.cprintf(ent, PRINT_HIGH, "Select Before %x,", ent->selectFlag);
 
 	Cmd_prev_Select(ent);
 
-	gi.cprintf(ent, PRINT_HIGH, "Select After %x\n", ent->selectFlag);
+	getMaskName(ent->selectFlag, &temp);
+
+	gi.cprintf(ent, PRINT_HIGH, "Current Selection %s\n", temp);
 
 
 
@@ -619,11 +676,18 @@ void Cmd_Prev_Select_p(edict_t* ent)
 
 void Cmd_Next_Select_p(edict_t* ent)
 {
-	gi.cprintf(ent, PRINT_HIGH, "Select Before %x,", ent->selectFlag);
+
+	char* temp = "NULL";
+
+
+
+	//gi.cprintf(ent, PRINT_HIGH, "Select Before %x,", ent->selectFlag);
 
 	Cmd_next_Select(ent);
 
-	gi.cprintf(ent, PRINT_HIGH, "Select After %x\n", ent->selectFlag);
+	getMaskName(ent->selectFlag, &temp);
+
+	gi.cprintf(ent, PRINT_HIGH, "Current Selection %s\n", temp);
 
 }
 

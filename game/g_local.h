@@ -46,18 +46,20 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 
 //Jade Magic Flags
+#define	MAGIC_MASK					0x0000001F
 #define	MAGIC_LEECH					0x00000001
 #define	MAGIC_EXPLODE				0x00000002
 #define MAGIC_ELEMENT				0x00000004
 #define MAGIC_DMG					0x00000008
+#define MAGIC_AMMO_LEECH			0x00000010
 
 
-#define	MAGIC_RAGE					0x00000010
+#define	MAGIC_RAGE					0x00000020
 
 
 #define SUMMON_RAGE					0x00002000 //Damage in relation to summon
 
-#define SUMMON_MASK					0x000011F00 //Covers all summons
+#define SUMMON_MASK					0x00001F00 //Covers all summons
 #define	SUMMON_HEAL					0x00000100
 #define	SUMMON_AMMO					0x00000200
 #define	SUMMON_ARMOR				0x00000400
@@ -74,7 +76,19 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 //Jade Bit flags
 #define END_MASK					0x00100001 //
-#define GAP_MASK					0x0000E0F0
+#define GAP_MASK					0x0000E0E0
+#define DYNAMIC_MASK				~(MAGIC_LEECH | MAGIC_EXPLODE | MAGIC_ELEMENT | MAGIC_DMG | MAGIC_AMMO_LEECH | SUMMON_MASK | ITEM_MASK | MAGIC_MASK) //Mask which is defined by masks
+
+
+typedef struct
+{
+	int mask;
+	const char* name;
+	
+} mask_name;
+
+
+
 
 
 
@@ -136,7 +150,8 @@ typedef enum
 	AMMO_ROCKETS,
 	AMMO_GRENADES,
 	AMMO_CELLS,
-	AMMO_SLUGS
+	AMMO_SLUGS,
+	AMMO_MANA
 } ammo_t;
 
 

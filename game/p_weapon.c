@@ -812,9 +812,13 @@ void Weapon_RocketLauncher_Fire (edict_t *ent)
 	if (! ( (int)dmflags->value & DF_INFINITE_AMMO ) )
 		if (ent->damageBoost) //This is out damage boost thing, we'll use this anytime amm
 		{
-			ent->client->pers.inventory[ent->client->ammo_index] = ent->client->pers.inventory[ent->client->ammo_index] - ent->damageBoost;
+			ent->client->pers.inventory[ent->client->ammo_index] = (ent->client->pers.inventory[ent->client->ammo_index] - (ent->damageBoost*10));
 		}
-		ent->client->pers.inventory[ent->client->ammo_index]--;
+		else
+		{
+			ent->client->pers.inventory[ent->client->ammo_index] = (ent->client->pers.inventory[ent->client->ammo_index] - (10));
+		}
+		
 }
 
 void Weapon_RocketLauncher (edict_t *ent)
@@ -1218,7 +1222,7 @@ void weapon_shotgun_fire (edict_t *ent)
 	vec3_t		start;
 	vec3_t		forward, right;
 	vec3_t		offset;
-	int			damage = 4;
+	int			damage = 12;
 	int			kick = 8;
 
 	if (ent->client->ps.gunframe == 9)
@@ -1281,7 +1285,7 @@ void weapon_supershotgun_fire (edict_t *ent)
 	vec3_t		forward, right;
 	vec3_t		offset;
 	vec3_t		v;
-	int			damage = 6;
+	int			damage = 20;
 	int			kick = 12;
 
 	AngleVectors (ent->client->v_angle, forward, right, NULL);
@@ -1435,10 +1439,12 @@ void weapon_bfg_fire (edict_t *ent)
 
 	// cells can go down during windup (from power armor hits), so
 	// check again and abort firing if we don't have enough now
+
+	//Jade, we can skip this
 	if (ent->client->pers.inventory[ent->client->ammo_index] < 50)
 	{
 		ent->client->ps.gunframe++;
-		return;
+		//return;
 	}
 
 	if (is_quad)

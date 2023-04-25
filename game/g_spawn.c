@@ -267,10 +267,6 @@ spawn_t	spawns[] = {
 	{"turret_breach", SP_turret_breach},
 	{"turret_base", SP_turret_base},
 	{"turret_driver", SP_turret_driver},
-	{ "summon_health", SP_summon_infantry },
-	{ "summon_mana", SP_summon_infantry },
-	{ "summon_armor", SP_summon_infantry },
-	{ "summon_damage", SP_summon_infantry },
 	{ "summon_ally", SP_summon_infantry },
 
 

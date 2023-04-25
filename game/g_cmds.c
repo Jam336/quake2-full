@@ -468,6 +468,170 @@ void Cmd_Exlosion_f(edict_t* ent)
 }
 
 
+void Cmd_prev_Select(edict_t* ent)
+{
+	if (!ent->selectFlag)
+	{
+		ent->selectFlag = 1;
+		return;
+	}
+
+	if (ent->selectFlag & 1)
+	{
+		ent->selectFlag ^= END_MASK; //
+		return;
+	}
+
+
+
+
+
+
+	//check here for ends and gaps
+
+	ent->selectFlag >>= 1; //Moves bit one over right
+
+	if (ent->selectFlag & GAP_MASK)
+	{
+		//may need to use a while loop
+		while (ent->selectFlag & GAP_MASK)
+		{
+			ent->selectFlag >>= 1;
+		}
+
+	}
+
+	return;
+
+
+
+}
+
+void Cmd_next_Select(edict_t* ent)
+{
+	if (!ent->selectFlag)
+	{
+		ent->selectFlag = 1;
+		return;
+	}
+
+
+	if (ent->selectFlag & ITEM_GOD)
+	{
+		ent->selectFlag ^= END_MASK; //
+		return;
+	}
+
+
+
+
+
+
+
+
+	//check here for ends and gaps
+
+	ent->selectFlag <<= 1; //Moves bit one over right
+
+	if (ent->selectFlag & GAP_MASK)
+	{
+		//may need to use a while loop
+		while (ent->selectFlag & GAP_MASK)
+		{
+			ent->selectFlag <<= 1;
+		}
+
+	}
+
+	return;
+
+
+}
+
+void Cmd_Select(edict_t* ent) 
+{
+	if (ent->selectFlag & ITEM_MASK)
+	{
+		ent->itemEquip = ent->selectFlag;
+		return;
+	}
+
+	if (ent->selectFlag & SUMMON_MASK) //we'll want to do something similair to item use
+	{
+		ent->magicFlags = (ent->flags & ~SUMMON_MASK) | ent->selectFlag; //alright, first, we clear any summons we have, then we add out select flag
+		return;
+	}
+
+	if (ent->selectFlag & MAGIC_DMG)
+	{
+		if (ent->damageBoost >= 3) { ent->damageBoost = 0; return; }
+		ent->damageBoost += 1;
+		return;
+
+	}
+
+	if (ent->selectFlag & MAGIC_ELEMENT)
+	{
+		ent->element += 1;
+		if (ent->element >= 4)
+		{
+			ent->element = 0;
+		}
+		return;
+	}
+
+
+
+
+	ent->magicFlags ^= ent->selectFlag ; //we want to use xor since we'll flip whatever bit it is we're using
+
+
+
+}
+
+
+
+void Cmd_Select_p(edict_t* ent)
+{
+	gi.cprintf(ent, PRINT_HIGH, "Flags Before %x,", ent->magicFlags);
+
+	Cmd_Select(ent);
+
+	gi.cprintf(ent, PRINT_HIGH, "Flags After %x\n", ent->magicFlags);
+
+
+
+}
+
+void Cmd_Prev_Select_p(edict_t* ent)
+{
+	gi.cprintf(ent, PRINT_HIGH, "Select Before %x,", ent->selectFlag);
+
+	Cmd_prev_Select(ent);
+
+	gi.cprintf(ent, PRINT_HIGH, "Select After %x\n", ent->selectFlag);
+
+
+
+}
+
+
+
+void Cmd_Next_Select_p(edict_t* ent)
+{
+	gi.cprintf(ent, PRINT_HIGH, "Select Before %x,", ent->selectFlag);
+
+	Cmd_next_Select(ent);
+
+	gi.cprintf(ent, PRINT_HIGH, "Select After %x\n", ent->selectFlag);
+
+}
+
+
+
+
+
+
 /*
 ==================
 Cmd_Notarget_f
@@ -1105,6 +1269,12 @@ void ClientCommand (edict_t *ent)
 		Cmd_Potion_f(ent);
 	else if (Q_stricmp(cmd, "explode") == 0)
 		Cmd_Exlosion_f(ent);
+	else if (Q_stricmp(cmd, "prev") == 0)
+		Cmd_Prev_Select_p(ent);
+	else if (Q_stricmp(cmd, "next") == 0)
+		Cmd_Next_Select_p(ent);
+	else if (Q_stricmp(cmd, "select") == 0)
+		Cmd_Select_p(ent);
 
 
 

@@ -48,6 +48,10 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 //Jade Magic Flags
 #define	MAGIC_LEECH					0x00000001
 #define	MAGIC_EXPLODE				0x00000002
+#define MAGIC_ELEMENT				0x00000004
+#define MAGIC_DMG					0x00000008
+
+
 #define	MAGIC_RAGE					0x00000010
 
 #define SUMMON_MASK					0x00001F00 //Covers all summons
@@ -64,6 +68,10 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define ITEM_DAMAGE					0x00080000
 #define ITEM_GOD					0x00100000 
 
+
+//Jade Bit flags
+#define END_MASK					0x00100001 //
+#define GAP_MASK					0x0000E0F0
 
 
 

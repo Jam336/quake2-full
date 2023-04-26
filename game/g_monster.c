@@ -533,7 +533,7 @@ void monster_death_use (edict_t *self)
 
 qboolean monster_start (edict_t *self)
 {
-	if (deathmatch->value)
+	if (deathmatch->value && !self->magicFlags)
 	{
 		G_FreeEdict (self);
 		return false;

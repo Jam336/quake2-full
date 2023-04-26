@@ -65,6 +65,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define	SUMMON_ARMOR				0x00000400
 #define SUMMON_DAMAGE				0x00000800
 #define SUMMON_GOD					0x00001000 //I know, it's different, but it's fine
+#define UNSUMMON					0x00002000
 
 #define ITEM_MASK					0x001F0000 //Covers all items
 #define	ITEM_HEAL					0x00010000
@@ -77,7 +78,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 //Jade Bit flags
 #define END_MASK					0x00100001 //
 #define GAP_MASK					0x0000E0E0
-#define DYNAMIC_MASK				~(MAGIC_LEECH | MAGIC_EXPLODE | MAGIC_ELEMENT | MAGIC_DMG | MAGIC_AMMO_LEECH | SUMMON_MASK | ITEM_MASK | MAGIC_MASK) //Mask which is defined by masks
+#define DYNAMIC_MASK				~(MAGIC_LEECH | MAGIC_EXPLODE | MAGIC_ELEMENT | MAGIC_DMG | MAGIC_AMMO_LEECH | SUMMON_MASK | ITEM_MASK | MAGIC_MASK | UNSUMMON) //Mask which is defined by masks
 
 
 typedef struct

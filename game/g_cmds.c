@@ -34,6 +34,7 @@ mask_name names[] =
 	{SUMMON_ARMOR,		"Armor_Summon"},
 	{SUMMON_DAMAGE,		"Damage_Summon"},
 	{SUMMON_GOD,		"God_Summon"},
+	{UNSUMMON,			"Unsummon"},
 
 	{ITEM_HEAL,			"Heal_Potion"},
 	{ITEM_AMMO,			"Mana_Potion"},
@@ -582,7 +583,7 @@ void Cmd_next_Select(edict_t* ent)
 
 	ent->selectFlag <<= 1; //Moves bit one over right
 
-	if (ent->selectFlag & GAP_MASK)
+	if (ent->selectFlag & DYNAMIC_MASK)
 	{
 		//may need to use a while loop
 		while (ent->selectFlag & GAP_MASK)
@@ -615,9 +616,21 @@ void Cmd_Select(edict_t* ent)
 	{
 		if (ent->damageBoost >= 3) { ent->damageBoost = 0; return; }
 		ent->damageBoost += 1;
+		gi.cprintf(ent, PRINT_HIGH, "Damage Boost %u\n", ent->damageBoost);
+		
 		return;
 
+
 	}
+
+	if (ent->selectFlag & UNSUMMON && ent->summon)
+	{
+		gi.cprintf(ent, PRINT_HIGH, "Killing Summon\n");
+		ent->summon->die (ent->summon, ent, ent, 900, ent->summon->s.origin);
+		return;
+	}
+
+
 
 	if (ent->selectFlag & MAGIC_ELEMENT)
 	{
@@ -626,6 +639,10 @@ void Cmd_Select(edict_t* ent)
 		{
 			ent->element = 0;
 		}
+
+		gi.cprintf(ent, PRINT_HIGH, "Current Element &u\n", ent->element);
+
+
 		return;
 	}
 

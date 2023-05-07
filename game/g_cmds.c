@@ -50,7 +50,7 @@ void getMaskName(int Mask, char** name)
 
 
 	
-	for (mask_name* mname = &names[0]; mname < names + 15; mname++) {
+	for (mask_name* mname = &names[0]; mname < names + 16; mname++) {
 		if (mname->mask == Mask)
 		{
 			*name = mname->name;
@@ -640,7 +640,7 @@ void Cmd_Select(edict_t* ent)
 			ent->element = 0;
 		}
 
-		gi.cprintf(ent, PRINT_HIGH, "Current Element &u\n", ent->element);
+		gi.cprintf(ent, PRINT_HIGH, "Current Element %u\n", ent->element);
 
 
 		return;

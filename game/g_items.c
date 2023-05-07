@@ -1531,7 +1531,7 @@ always owned, never in the world
 /* pickup */	"BFG10K",
 		0,
 		50,
-		NULL,
+		"Cells",
 		IT_WEAPON|IT_STAY_COOP,
 		WEAP_BFG,
 		NULL,
